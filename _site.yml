@@ -1,0 +1,12 @@
+name: "Sportnomics"
+output_dir: "docs"
+navbar:
+  title: "Sportnomics"
+  left:
+  - text: "Home"
+    href: index.html
+  - text: "baseball"
+    href: test_commit.html
+output:
+  html_document:
+      theme: cosmo
