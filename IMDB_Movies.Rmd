@@ -1,0 +1,17 @@
+---
+title: "IMDB Movie Rankings"
+author: "Jesse Wade"
+date: "`r Sys.Date()`"
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Lets Pull Movie Ratings from IMDB 
+
+```{r librariestopull}
+# Still working this out but working on Pulls and Commits in GIT 
+```
+
