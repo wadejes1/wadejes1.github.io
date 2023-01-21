@@ -274,6 +274,7 @@ library(tidyverse)</code></pre>
 class="section level1">
 <h1>Graph of Batting Average over time; top 10 years</h1>
 <pre class="r"><code>Batting %&gt;% 
+  filter(AB &gt;200) %&gt;% 
   mutate(BattingAVG = H/AB) %&gt;% 
   group_by(yearID) %&gt;% 
   na.omit() %&gt;% 
@@ -291,44 +292,44 @@ knitr::kable(Batting_Average_Year %&gt;%
 </thead>
 <tbody>
 <tr class="odd">
+<td align="right">2000</td>
+<td align="right">0.2774184</td>
+</tr>
+<tr class="even">
 <td align="right">1994</td>
-<td align="right">0.2264668</td>
-</tr>
-<tr class="even">
-<td align="right">1980</td>
-<td align="right">0.2222574</td>
-</tr>
-<tr class="odd">
-<td align="right">1979</td>
-<td align="right">0.2222284</td>
-</tr>
-<tr class="even">
-<td align="right">2020</td>
-<td align="right">0.2206794</td>
-</tr>
-<tr class="odd">
-<td align="right">1993</td>
-<td align="right">0.2196015</td>
-</tr>
-<tr class="even">
-<td align="right">1995</td>
-<td align="right">0.2191314</td>
+<td align="right">0.2772283</td>
 </tr>
 <tr class="odd">
 <td align="right">1996</td>
-<td align="right">0.2175238</td>
+<td align="right">0.2766927</td>
 </tr>
 <tr class="even">
-<td align="right">1974</td>
-<td align="right">0.2167011</td>
+<td align="right">2006</td>
+<td align="right">0.2758470</td>
 </tr>
 <tr class="odd">
-<td align="right">1982</td>
-<td align="right">0.2162812</td>
+<td align="right">1999</td>
+<td align="right">0.2757424</td>
 </tr>
 <tr class="even">
-<td align="right">1984</td>
-<td align="right">0.2157666</td>
+<td align="right">2007</td>
+<td align="right">0.2743564</td>
+</tr>
+<tr class="odd">
+<td align="right">1995</td>
+<td align="right">0.2742016</td>
+</tr>
+<tr class="even">
+<td align="right">1997</td>
+<td align="right">0.2735748</td>
+</tr>
+<tr class="odd">
+<td align="right">2004</td>
+<td align="right">0.2727717</td>
+</tr>
+<tr class="even">
+<td align="right">1993</td>
+<td align="right">0.2717308</td>
 </tr>
 </tbody>
 </table>
