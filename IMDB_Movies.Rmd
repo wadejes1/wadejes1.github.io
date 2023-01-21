@@ -9,9 +9,21 @@ date: "`r Sys.Date()`"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r library}
+library(tidyverse)
+library(rvest)
+
+```
+
+
 # Lets Pull Movie Ratings from IMDB 
 
 ```{r librariestopull}
-# Still working this out but working on Pulls and Commits in GIT 
+IMDB <- read_html("https://www.imdb.com/chart/top/?ref_=nv_mv_250")
+
+IMDB_html <- html_elements(IMDB,c("span")) %>% html_text() 
+IMDB_INFO <- IMDB_html[104]
+
+IMDB_INFO
 ```
 
