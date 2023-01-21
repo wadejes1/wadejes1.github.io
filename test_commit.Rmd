@@ -14,3 +14,20 @@ library(Lahman)
 library(tidyverse)
 ```
 
+# Graph of Batting Average over time; top 10 years
+
+```{r get_data}
+Batting %>% 
+  mutate(BattingAVG = H/AB) %>% 
+  group_by(yearID) %>% 
+  na.omit() %>% 
+  summarise(BattingAVGY=mean(BattingAVG)) -> Batting_Average_Year
+knitr::kable(Batting_Average_Year %>% 
+               top_n(10,BattingAVGY) %>% 
+               arrange(desc(BattingAVGY)),caption ='Years with the Highest Batting Averages')
+
+Batting_Avg_Plot <- ggplot(Batting_Average_Year,aes(x=yearID,y=BattingAVGY))+geom_line()
+
+Batting_Avg_Plot
+```
+
