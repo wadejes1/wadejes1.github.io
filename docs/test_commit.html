@@ -270,6 +270,73 @@ $(document).ready(function () {
 
 <pre class="r"><code>library(Lahman)
 library(tidyverse)</code></pre>
+<div id="graph-of-batting-average-over-time-top-10-years"
+class="section level1">
+<h1>Graph of Batting Average over time; top 10 years</h1>
+<pre class="r"><code>Batting %&gt;% 
+  mutate(BattingAVG = H/AB) %&gt;% 
+  group_by(yearID) %&gt;% 
+  na.omit() %&gt;% 
+  summarise(BattingAVGY=mean(BattingAVG)) -&gt; Batting_Average_Year
+knitr::kable(Batting_Average_Year %&gt;% 
+               top_n(10,BattingAVGY) %&gt;% 
+               arrange(desc(BattingAVGY)),caption =&#39;Years with the Highest Batting Averages&#39;)</code></pre>
+<table>
+<caption>Years with the Highest Batting Averages</caption>
+<thead>
+<tr class="header">
+<th align="right">yearID</th>
+<th align="right">BattingAVGY</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1994</td>
+<td align="right">0.2264668</td>
+</tr>
+<tr class="even">
+<td align="right">1980</td>
+<td align="right">0.2222574</td>
+</tr>
+<tr class="odd">
+<td align="right">1979</td>
+<td align="right">0.2222284</td>
+</tr>
+<tr class="even">
+<td align="right">2020</td>
+<td align="right">0.2206794</td>
+</tr>
+<tr class="odd">
+<td align="right">1993</td>
+<td align="right">0.2196015</td>
+</tr>
+<tr class="even">
+<td align="right">1995</td>
+<td align="right">0.2191314</td>
+</tr>
+<tr class="odd">
+<td align="right">1996</td>
+<td align="right">0.2175238</td>
+</tr>
+<tr class="even">
+<td align="right">1974</td>
+<td align="right">0.2167011</td>
+</tr>
+<tr class="odd">
+<td align="right">1982</td>
+<td align="right">0.2162812</td>
+</tr>
+<tr class="even">
+<td align="right">1984</td>
+<td align="right">0.2157666</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>Batting_Avg_Plot &lt;- ggplot(Batting_Average_Year,aes(x=yearID,y=BattingAVGY))+geom_line()
+
+Batting_Avg_Plot</code></pre>
+<p><img src="test_commit_files/figure-html/get_data-1.png" width="672" /></p>
+</div>
 
 
 
