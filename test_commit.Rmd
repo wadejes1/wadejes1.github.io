@@ -18,6 +18,7 @@ library(tidyverse)
 
 ```{r get_data}
 Batting %>% 
+  filter(AB >200) %>% 
   mutate(BattingAVG = H/AB) %>% 
   group_by(yearID) %>% 
   na.omit() %>% 
