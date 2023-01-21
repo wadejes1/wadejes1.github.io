@@ -268,20 +268,9 @@ $(document).ready(function () {
 </div>
 
 
-<pre class="r"><code>library(Lahman)
-library(tidyverse)</code></pre>
 <div id="graph-of-batting-average-over-time-top-10-years"
 class="section level1">
 <h1>Graph of Batting Average over time; top 10 years</h1>
-<pre class="r"><code>Batting %&gt;% 
-  filter(AB &gt;200) %&gt;% 
-  mutate(BattingAVG = H/AB) %&gt;% 
-  group_by(yearID) %&gt;% 
-  na.omit() %&gt;% 
-  summarise(BattingAVGY=mean(BattingAVG)) -&gt; Batting_Average_Year
-knitr::kable(Batting_Average_Year %&gt;% 
-               top_n(10,BattingAVGY) %&gt;% 
-               arrange(desc(BattingAVGY)),caption =&#39;Years with the Highest Batting Averages&#39;)</code></pre>
 <table>
 <caption>Years with the Highest Batting Averages</caption>
 <thead>
@@ -333,10 +322,61 @@ knitr::kable(Batting_Average_Year %&gt;%
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>Batting_Avg_Plot &lt;- ggplot(Batting_Average_Year,aes(x=yearID,y=BattingAVGY))+geom_line()
-
-Batting_Avg_Plot</code></pre>
 <p><img src="test_commit_files/figure-html/get_data-1.png" width="672" /></p>
+<table>
+<caption>Years with the Highest Home Run Totals</caption>
+<thead>
+<tr class="header">
+<th align="right">yearID</th>
+<th align="right">TotalHR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">2019</td>
+<td align="right">6776</td>
+</tr>
+<tr class="even">
+<td align="right">2017</td>
+<td align="right">6105</td>
+</tr>
+<tr class="odd">
+<td align="right">2021</td>
+<td align="right">5944</td>
+</tr>
+<tr class="even">
+<td align="right">2000</td>
+<td align="right">5693</td>
+</tr>
+<tr class="odd">
+<td align="right">2016</td>
+<td align="right">5610</td>
+</tr>
+<tr class="even">
+<td align="right">2018</td>
+<td align="right">5585</td>
+</tr>
+<tr class="odd">
+<td align="right">1999</td>
+<td align="right">5528</td>
+</tr>
+<tr class="even">
+<td align="right">2001</td>
+<td align="right">5458</td>
+</tr>
+<tr class="odd">
+<td align="right">2004</td>
+<td align="right">5451</td>
+</tr>
+<tr class="even">
+<td align="right">2006</td>
+<td align="right">5386</td>
+</tr>
+</tbody>
+</table>
+<p><img src="test_commit_files/figure-html/HR-1.png" width="672" /></p>
+<p>Not sure what to do with 2020 due to it missing so much data with the
+shortened season.</p>
 </div>
 
 

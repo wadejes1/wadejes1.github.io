@@ -6,7 +6,7 @@ date: "`r Sys.Date()`"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ```{r libraries}
@@ -32,3 +32,21 @@ Batting_Avg_Plot <- ggplot(Batting_Average_Year,aes(x=yearID,y=BattingAVGY))+geo
 Batting_Avg_Plot
 ```
 
+```{r HR}
+Batting %>% 
+  filter(yearID > 1954)%>% 
+  group_by(yearID) %>% 
+  na.omit() %>% 
+  summarise(TotalHR=sum(HR)) -> Homeruns_By_Year
+knitr::kable(Homeruns_By_Year %>% 
+               top_n(10,TotalHR) %>% 
+               arrange(desc(TotalHR)),caption ='Years with the Highest Home Run Totals')
+
+HR_Plot <- ggplot(Homeruns_By_Year,aes(x=yearID,y=TotalHR))+geom_line()
+
+HR_Plot
+
+
+```
+
+Not sure what to do with 2020 due to it missing so much data with the shortened season.
