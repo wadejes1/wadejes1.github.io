@@ -10,6 +10,9 @@ navbar:
   - text: "IMDB"
     href: IMDB_Movies.html
   - text: "Permits"
+    menu:
+    - text: "Permits"
+    - text: "Single-Family"
     href: Permits.html
 output:
   html_document:
