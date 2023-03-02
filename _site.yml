@@ -9,6 +9,8 @@ navbar:
     href: test_commit.html
   - text: "IMDB"
     href: IMDB_Movies.html
+  - text: "Single Family Permits Data"
+    href: Permits.html 
 output:
   html_document:
       theme: cosmo

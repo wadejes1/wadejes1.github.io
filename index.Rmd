@@ -12,3 +12,8 @@ knitr::opts_chunk$set(echo = TRUE)
 # Welcome! 
 
 Please explore this page. I am completly new to this and am just getting started learning how to format it all! 
+
+## Using Rmd Files 
+
+All the files here are RMDs, knitted to the site as HTML with YAML formatting 
+
