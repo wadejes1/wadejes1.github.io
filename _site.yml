@@ -13,7 +13,7 @@ navbar:
     menu:
     - text: "Permits"
     - text: "Single-Family"
-    href: Permits.html
+      href: Permits.html
 output:
   html_document:
       theme: cosmo
