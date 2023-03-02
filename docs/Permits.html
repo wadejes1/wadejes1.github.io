@@ -280,7 +280,9 @@ $(document).ready(function () {
 <pre class="r"><code>header &lt;- scan(&quot;https://www2.census.gov/econ/bps/County/co2301c.txt&quot;,nlines= 1, what=character(),sep=&quot;,&quot;)
 header2 &lt;- scan(&quot;https://www2.census.gov/econ/bps/County/co2301c.txt&quot;,nlines= 1,skip=1 ,what=character(),sep=&quot;,&quot;)
 data &lt;- read.csv(&quot;https://www2.census.gov/econ/bps/County/co2301c.txt&quot;,skip= 3,header = FALSE)
-names(data) &lt;- paste0(header,header2)</code></pre>
+names(data) &lt;- paste0(header,header2)
+
+data &lt;- data[,1:18]</code></pre>
 <div id="head-of-data" class="section level2">
 <h2>Head of Data</h2>
 <pre class="r"><code>head(data)</code></pre>
@@ -298,35 +300,87 @@ names(data) &lt;- paste0(header,header2)</code></pre>
 ## 4 Bibb County                                                      0
 ## 5 Blount County                                                    1
 ## 6 Bullock County                                                   0
-##   1-unitUnits    Value Bldgs 2-unitsUnits  Value Bldgs 3-4 unitsUnits Value
-## 1          21  6503526     0            0      0     0              0     0
-## 2         214 60661070     1            2 260450     0              0     0
-## 3           1   591000     0            0      0     0              0     0
-## 4           0        0     0            0      0     0              0     0
-## 5           1   237715     0            0      0     0              0     0
-## 6           0        0     0            0      0     0              0     0
-##   Bldgs 5+ unitsUnits  Value Bldgs 1-unit repUnits    Value Bldgs
-## 1     0             0      0    21              21  6503526     0
-## 2     1            12 952996   132             132 39551008     1
-## 3     0             0      0     1               1   591000     0
-## 4     0             0      0     0               0        0     0
-## 5     0             0      0     0               0        0     0
-## 6     0             0      0     0               0        0     0
-##   2-units repUnits  Value Bldgs 3-4 units repUnits Value Bldgs
-## 1                0      0     0                  0     0     0
-## 2                2 260450     0                  0     0     0
-## 3                0      0     0                  0     0     0
-## 4                0      0     0                  0     0     0
-## 5                0      0     0                  0     0     0
-## 6                0      0     0                  0     0     0
-##    5+units repUnits SurveyValue
-## 1                 0           0
-## 2                 0           0
-## 3                 0           0
-## 4                 0           0
-## 5                 0           0
-## 6                 0           0</code></pre>
+##   1-unitUnits    Value Bldgs.1 2-unitsUnits Value.1 Bldgs.2 3-4 unitsUnits
+## 1          21  6503526       0            0       0       0              0
+## 2         214 60661070       1            2  260450       0              0
+## 3           1   591000       0            0       0       0              0
+## 4           0        0       0            0       0       0              0
+## 5           1   237715       0            0       0       0              0
+## 6           0        0       0            0       0       0              0
+##   Value.2 Bldgs.3 5+ unitsUnits Value.3
+## 1       0       0             0       0
+## 2       0       1            12  952996
+## 3       0       0             0       0
+## 4       0       0             0       0
+## 5       0       0             0       0
+## 6       0       0             0       0</code></pre>
 <p>Data looks ready! :)</p>
+<div id="state-level-count" class="section level3">
+<h3>State Level Count</h3>
+<p>This data set is at the county level. It contains the current level
+of permits for the particular month by county</p>
+<pre class="r"><code>data %&gt;% 
+  group_by(FIPSState) %&gt;% 
+  summarise(SingleFamilyPermits = sum(Bldgs)) %&gt;% 
+  arrange(desc(SingleFamilyPermits))-&gt; State_Counts
+knitr::kable(
+  State_Counts %&gt;% 
+    top_n(10,SingleFamilyPermits),caption = &quot;Top 10 Single Family Permits in January 2023, Statewise&quot;
+)</code></pre>
+<table>
+<caption>Top 10 Single Family Permits in January 2023,
+Statewise</caption>
+<thead>
+<tr class="header">
+<th align="right">FIPSState</th>
+<th align="right">SingleFamilyPermits</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">48</td>
+<td align="right">8315</td>
+</tr>
+<tr class="even">
+<td align="right">12</td>
+<td align="right">8060</td>
+</tr>
+<tr class="odd">
+<td align="right">37</td>
+<td align="right">4328</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">3068</td>
+</tr>
+<tr class="odd">
+<td align="right">13</td>
+<td align="right">2809</td>
+</tr>
+<tr class="even">
+<td align="right">45</td>
+<td align="right">2400</td>
+</tr>
+<tr class="odd">
+<td align="right">47</td>
+<td align="right">1919</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">1592</td>
+</tr>
+<tr class="odd">
+<td align="right">51</td>
+<td align="right">1399</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="right">1181</td>
+</tr>
+</tbody>
+</table>
+<p>Only have FIPS codes, will convert over later.</p>
+</div>
 </div>
 </div>
 
