@@ -277,7 +277,57 @@ $(document).ready(function () {
 
 <div id="read-in-data-from-census" class="section level1">
 <h1>Read in Data from census</h1>
-<pre class="r"><code>data &lt;- read.csv(&quot;https://www2.census.gov/econ/bps/County/co2301c.txt&quot;,row.names = NULL)</code></pre>
+<pre class="r"><code>header &lt;- scan(&quot;https://www2.census.gov/econ/bps/County/co2301c.txt&quot;,nlines= 1, what=character(),sep=&quot;,&quot;)
+header2 &lt;- scan(&quot;https://www2.census.gov/econ/bps/County/co2301c.txt&quot;,nlines= 1,skip=1 ,what=character(),sep=&quot;,&quot;)
+data &lt;- read.csv(&quot;https://www2.census.gov/econ/bps/County/co2301c.txt&quot;,skip= 3,header = FALSE)
+names(data) &lt;- paste0(header,header2)</code></pre>
+<div id="head-of-data" class="section level2">
+<h2>Head of Data</h2>
+<pre class="r"><code>head(data)</code></pre>
+<pre><code>##   SurveyDate FIPSState FIPSCounty RegionCode DivisionCode
+## 1     202301         1          1          3            6
+## 2     202301         1          3          3            6
+## 3     202301         1          5          3            6
+## 4     202301         1          7          3            6
+## 5     202301         1          9          3            6
+## 6     202301         1         11          3            6
+##                                                     CountyName Bldgs
+## 1 Autauga County                                                  21
+## 2 Baldwin County                                                 214
+## 3 Barbour County                                                   1
+## 4 Bibb County                                                      0
+## 5 Blount County                                                    1
+## 6 Bullock County                                                   0
+##   1-unitUnits    Value Bldgs 2-unitsUnits  Value Bldgs 3-4 unitsUnits Value
+## 1          21  6503526     0            0      0     0              0     0
+## 2         214 60661070     1            2 260450     0              0     0
+## 3           1   591000     0            0      0     0              0     0
+## 4           0        0     0            0      0     0              0     0
+## 5           1   237715     0            0      0     0              0     0
+## 6           0        0     0            0      0     0              0     0
+##   Bldgs 5+ unitsUnits  Value Bldgs 1-unit repUnits    Value Bldgs
+## 1     0             0      0    21              21  6503526     0
+## 2     1            12 952996   132             132 39551008     1
+## 3     0             0      0     1               1   591000     0
+## 4     0             0      0     0               0        0     0
+## 5     0             0      0     0               0        0     0
+## 6     0             0      0     0               0        0     0
+##   2-units repUnits  Value Bldgs 3-4 units repUnits Value Bldgs
+## 1                0      0     0                  0     0     0
+## 2                2 260450     0                  0     0     0
+## 3                0      0     0                  0     0     0
+## 4                0      0     0                  0     0     0
+## 5                0      0     0                  0     0     0
+## 6                0      0     0                  0     0     0
+##    5+units repUnits SurveyValue
+## 1                 0           0
+## 2                 0           0
+## 3                 0           0
+## 4                 0           0
+## 5                 0           0
+## 6                 0           0</code></pre>
+<p>Data looks ready! :)</p>
+</div>
 </div>
 
 

@@ -13,6 +13,15 @@ knitr::opts_chunk$set(echo = TRUE)
 # Read in Data from census
 
 ```{r Census_data}
-data <- read.csv("https://www2.census.gov/econ/bps/County/co2301c.txt",row.names = NULL)
+header <- scan("https://www2.census.gov/econ/bps/County/co2301c.txt",nlines= 1, what=character(),sep=",")
+header2 <- scan("https://www2.census.gov/econ/bps/County/co2301c.txt",nlines= 1,skip=1 ,what=character(),sep=",")
+data <- read.csv("https://www2.census.gov/econ/bps/County/co2301c.txt",skip= 3,header = FALSE)
+names(data) <- paste0(header,header2)
 ```
 
+## Head of Data 
+```{r}
+head(data)
+```
+
+Data looks ready! :)
