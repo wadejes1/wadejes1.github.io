@@ -13,7 +13,7 @@
 
 <meta name="date" content="2023-03-10" />
 
-<title>Permits</title>
+<title>Single-family Permits</title>
 
 <script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -291,7 +291,7 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Permits</h1>
+<h1 class="title toc-ignore">Single-family Permits</h1>
 <h4 class="author">Jesse Wade</h4>
 <h4 class="date">2023-03-10</h4>
 
@@ -300,15 +300,22 @@ $(document).ready(function () {
 
 <div id="read-in-data-from-census" class="section level1">
 <h1>Read in Data from census</h1>
+<p>I am reading in the data from the census. It gives the count for the
+the year and data. This particular dataset is set for January 2023, the
+most recent release of data. The next permits release is on March 16,
+which will be February permit data at the county level.</p>
 <pre class="r"><code>header &lt;- scan(&quot;https://www2.census.gov/econ/bps/County/co2301c.txt&quot;,nlines= 1, what=character(),sep=&quot;,&quot;)
 header2 &lt;- scan(&quot;https://www2.census.gov/econ/bps/County/co2301c.txt&quot;,nlines= 1,skip=1 ,what=character(),sep=&quot;,&quot;)
 data &lt;- read.csv(&quot;https://www2.census.gov/econ/bps/County/co2301c.txt&quot;,skip= 3,header = FALSE)
-names(data) &lt;- paste0(header,header2)
+names(data) &lt;- paste0(header,header2,sep = &quot;&quot;)
 
 data &lt;- data[,1:18]</code></pre>
-<div id="head-of-data" class="section level2">
-<h2>Head of Data</h2>
-<pre class="r"><code>head(data)</code></pre>
+<div id="remove-all-multifamily-permit-data" class="section level2">
+<h2>Remove all multifamily permit data</h2>
+<pre class="r"><code>data %&gt;% 
+  select(c(1:9)) -&gt;data_1
+
+head(data_1)</code></pre>
 <pre><code>##   SurveyDate FIPSState FIPSCounty RegionCode DivisionCode
 ## 1     202301         1          1          3            6
 ## 2     202301         1          3          3            6
@@ -316,28 +323,126 @@ data &lt;- data[,1:18]</code></pre>
 ## 4     202301         1          7          3            6
 ## 5     202301         1          9          3            6
 ## 6     202301         1         11          3            6
-##                                                     CountyName Bldgs 1-unitUnits
-## 1 Autauga County                                                  21          21
-## 2 Baldwin County                                                 214         214
-## 3 Barbour County                                                   1           1
-## 4 Bibb County                                                      0           0
-## 5 Blount County                                                    1           1
-## 6 Bullock County                                                   0           0
-##      Value Bldgs.1 2-unitsUnits Value.1 Bldgs.2 3-4 unitsUnits Value.2 Bldgs.3
-## 1  6503526       0            0       0       0              0       0       0
-## 2 60661070       1            2  260450       0              0       0       1
-## 3   591000       0            0       0       0              0       0       0
-## 4        0       0            0       0       0              0       0       0
-## 5   237715       0            0       0       0              0       0       0
-## 6        0       0            0       0       0              0       0       0
-##   5+ unitsUnits Value.3
-## 1             0       0
-## 2            12  952996
-## 3             0       0
-## 4             0       0
-## 5             0       0
-## 6             0       0</code></pre>
+##                                                     CountyName Bldgs
+## 1 Autauga County                                                  21
+## 2 Baldwin County                                                 214
+## 3 Barbour County                                                   1
+## 4 Bibb County                                                      0
+## 5 Blount County                                                    1
+## 6 Bullock County                                                   0
+##   1-unitUnits    Value
+## 1          21  6503526
+## 2         214 60661070
+## 3           1   591000
+## 4           0        0
+## 5           1   237715
+## 6           0        0</code></pre>
 <p>Data looks ready! :)</p>
+<div id="county-level-analysis" class="section level3">
+<h3>County Level Analysis</h3>
+<div id="top-countys-by-permits-level" class="section level4">
+<h4>Top Countys by Permits level</h4>
+<pre class="r"><code>data_1 %&gt;% 
+  select(CountyName,Permits=8) %&gt;% 
+  arrange(desc(Permits)) %&gt;% 
+  top_n(20,Permits) -&gt; Top_sf_Permit_Counties
+knitr::kable(
+  Top_sf_Permit_Counties,caption = &quot;Top 20 Single Family Permits in January 2023 by County&quot;
+)</code></pre>
+<table>
+<caption>Top 20 Single Family Permits in January 2023 by
+County</caption>
+<thead>
+<tr class="header">
+<th align="left">CountyName</th>
+<th align="right">Permits</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Harris County</td>
+<td align="right">1293</td>
+</tr>
+<tr class="even">
+<td align="left">Maricopa County</td>
+<td align="right">811</td>
+</tr>
+<tr class="odd">
+<td align="left">Los Angeles County</td>
+<td align="right">640</td>
+</tr>
+<tr class="even">
+<td align="left">Wake County</td>
+<td align="right">616</td>
+</tr>
+<tr class="odd">
+<td align="left">Lee County</td>
+<td align="right">608</td>
+</tr>
+<tr class="even">
+<td align="left">Collin County</td>
+<td align="right">596</td>
+</tr>
+<tr class="odd">
+<td align="left">Montgomery County</td>
+<td align="right">566</td>
+</tr>
+<tr class="even">
+<td align="left">Pasco County</td>
+<td align="right">506</td>
+</tr>
+<tr class="odd">
+<td align="left">Mecklenburg County</td>
+<td align="right">489</td>
+</tr>
+<tr class="even">
+<td align="left">Lake County</td>
+<td align="right">469</td>
+</tr>
+<tr class="odd">
+<td align="left">Clark County</td>
+<td align="right">455</td>
+</tr>
+<tr class="even">
+<td align="left">Polk County</td>
+<td align="right">448</td>
+</tr>
+<tr class="odd">
+<td align="left">St. Johns County</td>
+<td align="right">399</td>
+</tr>
+<tr class="even">
+<td align="left">Tarrant County</td>
+<td align="right">376</td>
+</tr>
+<tr class="odd">
+<td align="left">Brunswick County</td>
+<td align="right">366</td>
+</tr>
+<tr class="even">
+<td align="left">Denton County</td>
+<td align="right">365</td>
+</tr>
+<tr class="odd">
+<td align="left">Brevard County</td>
+<td align="right">364</td>
+</tr>
+<tr class="even">
+<td align="left">Horry County</td>
+<td align="right">351</td>
+</tr>
+<tr class="odd">
+<td align="left">Fort Bend County</td>
+<td align="right">347</td>
+</tr>
+<tr class="even">
+<td align="left">Williamson County</td>
+<td align="right">345</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div id="state-level-count" class="section level3">
 <h3>State Level Count</h3>
 <p>This data set is at the county level. It contains the current level
