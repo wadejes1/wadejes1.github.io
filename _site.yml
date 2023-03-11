@@ -5,15 +5,20 @@ navbar:
   left:
   - text: "Home"
     href: index.html
-  - text: "baseball"
-    href: test_commit.html
+  - text: "Baseball"
+    menu:
+    - text: "Batting"
+      href: test_commit.html
+    - text: "Pitching"
   - text: "IMDB"
     href: IMDB_Movies.html
-  - text: "Permits"
+  - text: "Housing"
     menu:
     - text: "Permits"
     - text: "Single-Family"
       href: Permits.html
+    - text: "Multifamily"
+      href: Permits_MF.html
 output:
   html_document:
       theme: cosmo

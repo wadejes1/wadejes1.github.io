@@ -13,7 +13,7 @@
 
 <meta name="date" content="2023-03-10" />
 
-<title>index</title>
+<title>Homepage</title>
 
 <script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -247,15 +247,25 @@ $(document).ready(function () {
         <li>
   <a href="index.html">Home</a>
 </li>
-<li>
-  <a href="test_commit.html">baseball</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Baseball
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="test_commit.html">Batting</a>
+    </li>
+    <li class="dropdown-header">Pitching</li>
+  </ul>
 </li>
 <li>
   <a href="IMDB_Movies.html">IMDB</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Permits
+    Housing
      
     <span class="caret"></span>
   </a>
@@ -263,6 +273,9 @@ $(document).ready(function () {
     <li class="dropdown-header">Permits</li>
     <li>
       <a href="Permits.html">Single-Family</a>
+    </li>
+    <li>
+      <a href="Permits_MF.html">Multifamily</a>
     </li>
   </ul>
 </li>
@@ -278,7 +291,7 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">index</h1>
+<h1 class="title toc-ignore">Homepage</h1>
 <h4 class="author">Jesse Wade</h4>
 <h4 class="date">2023-03-10</h4>
 
@@ -287,7 +300,7 @@ $(document).ready(function () {
 
 <div id="welcome" class="section level1">
 <h1>Welcome!</h1>
-<p>Please explore this page. I am completly new to this and am just
+<p>Please explore this page. I am completely new to this and am just
 getting started learning how to format it all!</p>
 <div id="using-rmd-files" class="section level2">
 <h2>Using Rmd Files</h2>
