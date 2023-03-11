@@ -1,0 +1,46 @@
+---
+title: "Permits_MF"
+author: "Jesse Wade"
+date: "`r Sys.Date()`"
+output: html_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+# Read in Data from census
+
+```{r Census_data}
+header <- scan("https://www2.census.gov/econ/bps/County/co2301c.txt",nlines= 1, what=character(),sep=",")
+header2 <- scan("https://www2.census.gov/econ/bps/County/co2301c.txt",nlines= 1,skip=1 ,what=character(),sep=",")
+data <- read.csv("https://www2.census.gov/econ/bps/County/co2301c.txt",skip= 3,header = FALSE)
+names(data) <- paste0(header,header2)
+
+data <- data[,1:18]
+```
+
+## Head of Data 
+
+```{r}
+head(data)
+```
+
+Data looks ready! :)
+
+### State Level Count 
+
+This data set is at the county level. It contains the current level of permits for the particular month by county
+
+```{r States_Read}
+data %>% 
+  group_by(FIPSState) %>% 
+  summarise(SingleFamilyPermits = sum(Bldgs)) %>% 
+  arrange(desc(SingleFamilyPermits))-> State_Counts
+knitr::kable(
+  State_Counts %>% 
+    top_n(10,SingleFamilyPermits),caption = "Top 10 Single Family Permits in January 2023, Statewise"
+)
+```
+
+Only have FIPS codes, will convert over later. 
