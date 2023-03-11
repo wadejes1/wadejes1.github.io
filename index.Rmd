@@ -15,5 +15,5 @@ Please explore this page. I am completly new to this and am just getting started
 
 ## Using Rmd Files 
 
-All the files here are RMDs, knitted to the site as HTML with YAML formatting 
+All the files here are RMDs, knitted to the site as HTML with YAML formatting. I am an economist at the National Association of Home Builders. My interests on this page so far are going to be housing (Obviously), baseball, and webscraping. I hope to update at least once a week something new to share or just add to the site in general. To checkout all my current blog post, please visit https://eyeonhousing.org/author/jessewade/. I typically write about a variety of housing topics ranging from housing share of GDP to mortgage rates. 
 
