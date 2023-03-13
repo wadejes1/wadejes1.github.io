@@ -1,0 +1,68 @@
+---
+title: "NCAA Men's Basketball"
+author: "Jesse Wade"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r libraries, include=FALSE}
+library(httr)
+library(rvest)
+library(tidyverse)
+```
+
+```{r Load_in_Site, include=FALSE}
+# Site is kenpom, Has seed data. Will need to find data of number of wins teams had
+URL <- "https://kenpom.com/index.php?y=2022"
+
+resp_body <- read_html(URL)
+
+# For all team ranking data
+seeding_node <- html_elements(resp_body,"td")
+
+# reads it into a vector of characters
+ratings_ml <- html_text(seeding_node) %>% as.character()
+
+# Create Data Frame 
+NCAA_Data <- data.frame(Team = ratings_ml[seq(2,length(ratings_ml),21)],
+                        AdjO = ratings_ml[seq(6,length(ratings_ml),21)],
+                        AdjD = ratings_ml[seq(8,length(ratings_ml),21)],
+                        AdjT = ratings_ml[seq(10,length(ratings_ml),21)],
+                        Luck = ratings_ml[seq(12,length(ratings_ml),21)],
+                        OppO = ratings_ml[seq(16,length(ratings_ml),21)],
+                        OppD = ratings_ml[seq(18,length(ratings_ml),21)],
+                        NCSOS = ratings_ml[seq(20,length(ratings_ml),21)])
+
+for (i in seq(10,23,1)){
+  URL <- paste("https://kenpom.com/index.php?y=20",i,sep="")
+ resp_body <- read_html(URL)
+ seeding_node <- html_elements(resp_body,"td")
+ratings_ml <- html_text(seeding_node) %>% as.character()
+NCAA_Data <- data.frame(Team = ratings_ml[seq(2,length(ratings_ml),21)],
+                        AdjO = ratings_ml[seq(6,length(ratings_ml),21)],
+                        AdjD = ratings_ml[seq(8,length(ratings_ml),21)],
+                        AdjT = ratings_ml[seq(10,length(ratings_ml),21)],
+                        Luck = ratings_ml[seq(12,length(ratings_ml),21)],
+                        OppO = ratings_ml[seq(16,length(ratings_ml),21)],
+                        OppD = ratings_ml[seq(18,length(ratings_ml),21)],
+                        NCSOS = ratings_ml[seq(20,length(ratings_ml),21)])
+assign(paste("NCAA_DATA_20",i,sep=""),NCAA_Data)
+  
+}
+```
+
+## Top 10 Teams Each Year, 2010-2023
+
+```{r Top_10_Teams_Each_Year,echo=TRUE}
+
+for (i in seq(10,23,1)){
+  x = paste("NCAA_DATA_20",i,sep="")
+  print(head(get(x)))
+  
+}
+```
+
