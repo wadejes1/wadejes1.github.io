@@ -19,6 +19,9 @@ navbar:
       href: Permits.html
     - text: "Multifamily"
       href: Permits_MF.html
+  - text: "NCAA Men's Basketball"
+    href: NCAA.html
+    
 output:
   html_document:
       theme: cosmo
