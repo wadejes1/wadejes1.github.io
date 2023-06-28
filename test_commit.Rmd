@@ -9,12 +9,13 @@ date: "`r Sys.Date()`"
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-```{r libraries}
+```{r libraries, include=FALSE}
 library(Lahman)
 library(tidyverse)
+
 ```
 
-# Graph of Batting Average over time; top 10 years
+# Graph of Batting Average over time; Years with the Highest Batting Average
 
 ```{r get_data}
 Batting %>% 
@@ -27,10 +28,30 @@ knitr::kable(Batting_Average_Year %>%
                top_n(10,BattingAVGY) %>% 
                arrange(desc(BattingAVGY)),caption ='Years with the Highest Batting Averages')
 
-Batting_Avg_Plot <- ggplot(Batting_Average_Year,aes(x=yearID,y=BattingAVGY))+geom_line()
+Batting_Avg_Plot <- ggplot(Batting_Average_Year,aes(x=yearID,y=BattingAVGY))+geom_line(linewidth=1.4,color="red")+ scale_y_continuous(labels = scales::label_number(accuracy=0.001))
 
 Batting_Avg_Plot
 ```
+
+
+# Same Stuff as above but for the On Base Percentage
+
+```{r OBP}
+Batting %>% 
+  filter(AB >200) %>% 
+  mutate(OBP = (H+BB+IBB+HBP)/(AB+BB+IBB+HBP+SF+SH)) %>% 
+  group_by(yearID) %>% 
+  na.omit() %>% 
+  summarise(OBP=mean(OBP)) -> Batting_OBP_Year
+knitr::kable(Batting_OBP_Year %>% 
+               top_n(10,OBP) %>% 
+               arrange(desc(OBP)),caption ='Years with the Highest On Base Percentage')
+
+Batting_OBP_Plot <- ggplot(Batting_OBP_Year,aes(x=yearID,y=OBP))+geom_line(linewidth=1.25,color="blue") + scale_y_continuous(labels = scales::label_number(accuracy=0.001))
+
+Batting_OBP_Plot
+```
+
 
 ```{r HR}
 Batting %>% 
