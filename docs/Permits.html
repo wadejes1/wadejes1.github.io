@@ -311,15 +311,23 @@ $(document).ready(function () {
 <div id="read-in-data-from-census" class="section level1">
 <h1>Read in Data from census</h1>
 <p>I am reading in the data from the census. It gives the count for the
-the year and data. This particular dataset is set for January 2023, the
-most recent release of data. The next permits release is on March 16,
-which will be February permit data at the county level.</p>
-<pre class="r"><code>header &lt;- scan(&quot;https://www2.census.gov/econ/bps/County/co2301c.txt&quot;,nlines= 1, what=character(),sep=&quot;,&quot;)
-header2 &lt;- scan(&quot;https://www2.census.gov/econ/bps/County/co2301c.txt&quot;,nlines= 1,skip=1 ,what=character(),sep=&quot;,&quot;)
-data &lt;- read.csv(&quot;https://www2.census.gov/econ/bps/County/co2301c.txt&quot;,skip= 3,header = FALSE)
+the year and data. This particular dataset is set for April 2023, the
+most recent release of data. The next permits release is on July 16,
+which will be June permit data at the county level.</p>
+<pre class="r"><code>header &lt;- scan(&quot;https://www2.census.gov/econ/bps/County/co2305c.txt&quot;,nlines= 1, what=character(),sep=&quot;,&quot;)
+header2 &lt;- scan(&quot;https://www2.census.gov/econ/bps/County/co2305c.txt&quot;,nlines= 1,skip=1 ,what=character(),sep=&quot;,&quot;)
+data &lt;- read.csv(&quot;https://www2.census.gov/econ/bps/County/co2305c.txt&quot;,skip= 3,header = FALSE)
 names(data) &lt;- paste0(header,header2,sep = &quot;&quot;)
-
-data &lt;- data[,1:18]</code></pre>
+FipsToState &lt;- read_csv(&quot;Data/FipsToState.csv&quot;)</code></pre>
+<pre><code>## Rows: 53 Columns: 3
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (2): State, Postal_Abbr.
+## dbl (1): FIPS_Code
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>data &lt;- data[,1:18]</code></pre>
 <div id="remove-all-multifamily-permit-data" class="section level2">
 <h2>Remove all multifamily permit data</h2>
 <pre class="r"><code>data %&gt;% 
@@ -327,25 +335,25 @@ data &lt;- data[,1:18]</code></pre>
 
 head(data_1)</code></pre>
 <pre><code>##   SurveyDate FIPSState FIPSCounty RegionCode DivisionCode
-## 1     202301         1          1          3            6
-## 2     202301         1          3          3            6
-## 3     202301         1          5          3            6
-## 4     202301         1          7          3            6
-## 5     202301         1          9          3            6
-## 6     202301         1         11          3            6
+## 1     202305         1          1          3            6
+## 2     202305         1          3          3            6
+## 3     202305         1          5          3            6
+## 4     202305         1          7          3            6
+## 5     202305         1          9          3            6
+## 6     202305         1         11          3            6
 ##                                                     CountyName Bldgs
-## 1 Autauga County                                                  21
-## 2 Baldwin County                                                 214
-## 3 Barbour County                                                   1
-## 4 Bibb County                                                      0
-## 5 Blount County                                                    1
+## 1 Autauga County                                                  18
+## 2 Baldwin County                                                 278
+## 3 Barbour County                                                   3
+## 4 Bibb County                                                      1
+## 5 Blount County                                                    2
 ## 6 Bullock County                                                   0
 ##   1-unitUnits    Value
-## 1          21  6503526
-## 2         214 60661070
-## 3           1   591000
-## 4           0        0
-## 5           1   237715
+## 1          18  8218099
+## 2         278 73366507
+## 3           3   851800
+## 4           1   384000
+## 5           2   407957
 ## 6           0        0</code></pre>
 <p>Data looks ready! :)</p>
 <div id="county-level-analysis" class="section level3">
@@ -353,101 +361,106 @@ head(data_1)</code></pre>
 <div id="top-countys-by-permits-level" class="section level4">
 <h4>Top Countys by Permits level</h4>
 <pre class="r"><code>data_1 %&gt;% 
-  select(CountyName,Permits=8) %&gt;% 
+  left_join(FipsToState,by=c(&quot;FIPSState&quot;=&quot;FIPS_Code&quot;))%&gt;% 
+  mutate(CountyStateName =paste(CountyName,Postal_Abbr.,sep=&quot;&quot;) ) %&gt;% 
+  select(County=CountyStateName,Permits=8) %&gt;% 
   arrange(desc(Permits)) %&gt;% 
   top_n(20,Permits) -&gt; Top_sf_Permit_Counties
 knitr::kable(
-  Top_sf_Permit_Counties,caption = &quot;Top 20 Single Family Permits in January 2023 by County&quot;
+  Top_sf_Permit_Counties,caption = &quot;Top 20 Single Family Permits in April 2023 by County&quot;
 )</code></pre>
 <table>
-<caption>Top 20 Single Family Permits in January 2023 by
-County</caption>
+<caption>Top 20 Single Family Permits in April 2023 by County</caption>
+<colgroup>
+<col width="88%" />
+<col width="11%" />
+</colgroup>
 <thead>
 <tr class="header">
-<th align="left">CountyName</th>
+<th align="left">County</th>
 <th align="right">Permits</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Harris County</td>
-<td align="right">1293</td>
+<td align="left">Harris County TX</td>
+<td align="right">2192</td>
 </tr>
 <tr class="even">
-<td align="left">Maricopa County</td>
-<td align="right">811</td>
+<td align="left">Maricopa County AZ</td>
+<td align="right">1567</td>
 </tr>
 <tr class="odd">
-<td align="left">Los Angeles County</td>
-<td align="right">640</td>
+<td align="left">Clark County NV</td>
+<td align="right">1057</td>
 </tr>
 <tr class="even">
-<td align="left">Wake County</td>
-<td align="right">616</td>
+<td align="left">Wake County NC</td>
+<td align="right">1056</td>
 </tr>
 <tr class="odd">
-<td align="left">Lee County</td>
-<td align="right">608</td>
+<td align="left">Montgomery County TX</td>
+<td align="right">1040</td>
 </tr>
 <tr class="even">
-<td align="left">Collin County</td>
-<td align="right">596</td>
+<td align="left">Collin County TX</td>
+<td align="right">1013</td>
 </tr>
 <tr class="odd">
-<td align="left">Montgomery County</td>
-<td align="right">566</td>
+<td align="left">Fort Bend County TX</td>
+<td align="right">959</td>
 </tr>
 <tr class="even">
-<td align="left">Pasco County</td>
-<td align="right">506</td>
+<td align="left">Polk County FL</td>
+<td align="right">906</td>
 </tr>
 <tr class="odd">
-<td align="left">Mecklenburg County</td>
-<td align="right">489</td>
+<td align="left">Riverside County CA</td>
+<td align="right">900</td>
 </tr>
 <tr class="even">
-<td align="left">Lake County</td>
-<td align="right">469</td>
+<td align="left">Los Angeles County CA</td>
+<td align="right">806</td>
 </tr>
 <tr class="odd">
-<td align="left">Clark County</td>
-<td align="right">455</td>
+<td align="left">Denton County TX</td>
+<td align="right">718</td>
 </tr>
 <tr class="even">
-<td align="left">Polk County</td>
-<td align="right">448</td>
+<td align="left">Pasco County FL</td>
+<td align="right">706</td>
 </tr>
 <tr class="odd">
-<td align="left">St. Johns County</td>
-<td align="right">399</td>
+<td align="left">Horry County SC</td>
+<td align="right">696</td>
 </tr>
 <tr class="even">
-<td align="left">Tarrant County</td>
-<td align="right">376</td>
+<td align="left">Pinal County AZ</td>
+<td align="right">679</td>
 </tr>
 <tr class="odd">
-<td align="left">Brunswick County</td>
-<td align="right">366</td>
+<td align="left">Mecklenburg County NC</td>
+<td align="right">600</td>
 </tr>
 <tr class="even">
-<td align="left">Denton County</td>
-<td align="right">365</td>
+<td align="left">Williamson County TX</td>
+<td align="right">600</td>
 </tr>
 <tr class="odd">
-<td align="left">Brevard County</td>
-<td align="right">364</td>
+<td align="left">Osceola County FL</td>
+<td align="right">564</td>
 </tr>
 <tr class="even">
-<td align="left">Horry County</td>
-<td align="right">351</td>
+<td align="left">Lake County FL</td>
+<td align="right">542</td>
 </tr>
 <tr class="odd">
-<td align="left">Fort Bend County</td>
-<td align="right">347</td>
+<td align="left">Manatee County FL</td>
+<td align="right">528</td>
 </tr>
 <tr class="even">
-<td align="left">Williamson County</td>
-<td align="right">345</td>
+<td align="left">Oklahoma County OK</td>
+<td align="right">518</td>
 </tr>
 </tbody>
 </table>
@@ -458,62 +471,62 @@ County</caption>
 <p>This data set is at the county level. It contains the current level
 of permits for the particular month by county</p>
 <pre class="r"><code>data %&gt;% 
-  group_by(FIPSState) %&gt;% 
+  left_join(FipsToState,by=c(&quot;FIPSState&quot;=&quot;FIPS_Code&quot;))%&gt;% 
+  group_by(Postal_Abbr.) %&gt;% 
   summarise(SingleFamilyPermits = sum(Bldgs)) %&gt;% 
   arrange(desc(SingleFamilyPermits))-&gt; State_Counts
 knitr::kable(
   State_Counts %&gt;% 
-    top_n(10,SingleFamilyPermits),caption = &quot;Top 10 Single Family Permits in January 2023, Statewise&quot;
+    top_n(10,SingleFamilyPermits),caption = &quot;Top 10 Single Family Permits in April 2023, Statewise&quot;
 )</code></pre>
 <table>
-<caption>Top 10 Single Family Permits in January 2023,
-Statewise</caption>
+<caption>Top 10 Single Family Permits in April 2023, Statewise</caption>
 <thead>
 <tr class="header">
-<th align="right">FIPSState</th>
+<th align="left">Postal_Abbr.</th>
 <th align="right">SingleFamilyPermits</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">48</td>
-<td align="right">8315</td>
+<td align="left">TX</td>
+<td align="right">13831</td>
 </tr>
 <tr class="even">
-<td align="right">12</td>
-<td align="right">8060</td>
+<td align="left">FL</td>
+<td align="right">11411</td>
 </tr>
 <tr class="odd">
-<td align="right">37</td>
-<td align="right">4328</td>
+<td align="left">NC</td>
+<td align="right">6375</td>
 </tr>
 <tr class="even">
-<td align="right">6</td>
-<td align="right">3068</td>
+<td align="left">CA</td>
+<td align="right">6003</td>
 </tr>
 <tr class="odd">
-<td align="right">13</td>
-<td align="right">2809</td>
+<td align="left">GA</td>
+<td align="right">4365</td>
 </tr>
 <tr class="even">
-<td align="right">45</td>
-<td align="right">2400</td>
+<td align="left">SC</td>
+<td align="right">3520</td>
 </tr>
 <tr class="odd">
-<td align="right">47</td>
-<td align="right">1919</td>
+<td align="left">AZ</td>
+<td align="right">3182</td>
 </tr>
 <tr class="even">
-<td align="right">4</td>
-<td align="right">1592</td>
+<td align="left">TN</td>
+<td align="right">3084</td>
 </tr>
 <tr class="odd">
-<td align="right">51</td>
-<td align="right">1399</td>
+<td align="left">VA</td>
+<td align="right">2176</td>
 </tr>
 <tr class="even">
-<td align="right">8</td>
-<td align="right">1181</td>
+<td align="left">CO</td>
+<td align="right">1990</td>
 </tr>
 </tbody>
 </table>
