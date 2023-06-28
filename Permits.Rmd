@@ -8,6 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
+library(shiny)
 ```
 
 # Read in Data from census
@@ -66,3 +67,11 @@ knitr::kable(
 ```
 
 Only have FIPS codes, will convert over later. 
+
+
+### Adding in R-Shiny application to site. Permits by county or MSA
+
+```{r ShinyPermitsApp, echo=FALSE }
+shinyAppFile("PermitsApp.R")
+```
+
