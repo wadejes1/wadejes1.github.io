@@ -11,11 +11,11 @@
 
 <meta name="author" content="Jesse Wade" />
 
-<meta name="date" content="2023-03-12" />
+<meta name="date" content="2023-06-28" />
 
 <title>Single-family Permits</title>
 
-<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -180,8 +180,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "\e259";
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -189,9 +189,16 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
+  content: "&#xe258;";
   border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -296,7 +303,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Single-family Permits</h1>
 <h4 class="author">Jesse Wade</h4>
-<h4 class="date">2023-03-12</h4>
+<h4 class="date">2023-06-28</h4>
 
 </div>
 
@@ -326,13 +333,20 @@ head(data_1)</code></pre>
 ## 4     202301         1          7          3            6
 ## 5     202301         1          9          3            6
 ## 6     202301         1         11          3            6
-##                                                     CountyName Bldgs 1-unitUnits    Value
-## 1 Autauga County                                                  21          21  6503526
-## 2 Baldwin County                                                 214         214 60661070
-## 3 Barbour County                                                   1           1   591000
-## 4 Bibb County                                                      0           0        0
-## 5 Blount County                                                    1           1   237715
-## 6 Bullock County                                                   0           0        0</code></pre>
+##                                                     CountyName Bldgs
+## 1 Autauga County                                                  21
+## 2 Baldwin County                                                 214
+## 3 Barbour County                                                   1
+## 4 Bibb County                                                      0
+## 5 Blount County                                                    1
+## 6 Bullock County                                                   0
+##   1-unitUnits    Value
+## 1          21  6503526
+## 2         214 60661070
+## 3           1   591000
+## 4           0        0
+## 5           1   237715
+## 6           0        0</code></pre>
 <p>Data looks ready! :)</p>
 <div id="county-level-analysis" class="section level3">
 <h3>County Level Analysis</h3>
@@ -504,6 +518,20 @@ Statewise</caption>
 </tbody>
 </table>
 <p>Only have FIPS codes, will convert over later.</p>
+</div>
+<div
+id="adding-in-r-shiny-application-to-site.-permits-by-county-or-msa"
+class="section level3">
+<h3>Adding in R-Shiny application to site. Permits by county or MSA</h3>
+<pre><code>## Rows: 53 Columns: 3
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (2): State, Postal_Abbr.
+## dbl (1): FIPS_Code
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<div style="width: 100% ; height: 400px ; text-align: center; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box;" class="muted well">Shiny applications not supported in static R Markdown documents</div>
 </div>
 </div>
 </div>
