@@ -11,11 +11,11 @@
 
 <meta name="author" content="Jesse Wade" />
 
-<meta name="date" content="2023-03-12" />
+<meta name="date" content="2023-06-28" />
 
 <title>Multifamily Permits</title>
 
-<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -180,8 +180,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "\e259";
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -189,9 +189,16 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
+  content: "&#xe258;";
   border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -296,7 +303,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Multifamily Permits</h1>
 <h4 class="author">Jesse Wade</h4>
-<h4 class="date">2023-03-12</h4>
+<h4 class="date">2023-06-28</h4>
 
 </div>
 
@@ -307,12 +314,21 @@ $(document).ready(function () {
 The number of multifamily permits is based on the number of Units that
 have been permited for more non single-family structures. This will be
 the sum of the the columns named</p>
-<pre class="r"><code>header &lt;- scan(&quot;https://www2.census.gov/econ/bps/County/co2301c.txt&quot;,nlines= 1, what=character(),sep=&quot;,&quot;)
-header2 &lt;- scan(&quot;https://www2.census.gov/econ/bps/County/co2301c.txt&quot;,nlines= 1,skip=1 ,what=character(),sep=&quot;,&quot;)
-data &lt;- read.csv(&quot;https://www2.census.gov/econ/bps/County/co2301c.txt&quot;,skip= 3,header = FALSE)
+<pre class="r"><code>header &lt;- scan(&quot;https://www2.census.gov/econ/bps/County/co2305y.txt&quot;,nlines= 1, what=character(),sep=&quot;,&quot;)
+header2 &lt;- scan(&quot;https://www2.census.gov/econ/bps/County/co2305y.txt&quot;,nlines= 1,skip=1 ,what=character(),sep=&quot;,&quot;)
+data &lt;- read.csv(&quot;https://www2.census.gov/econ/bps/County/co2305y.txt&quot;,skip= 3,header = FALSE)
 names(data) &lt;- paste0(header,header2)
 
-# Cut off the end to use only reported data
+FipsToState &lt;- read_csv(&quot;Data/FipsToState.csv&quot;)</code></pre>
+<pre><code>## Rows: 53 Columns: 3
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (2): State, Postal_Abbr.
+## dbl (1): FIPS_Code
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code># Cut off the end to use only reported data
 data &lt;- data[,1:18]</code></pre>
 <div
 id="remove-single-family-data-and-format-multifamily-data-correctly"
@@ -329,100 +345,104 @@ permits have been removed from the data.</p>
 <div id="average-multifamily-permits" class="section level4">
 <h4>Average Multifamily Permits</h4>
 <p>A pretty low average across the U.S. at only 81.376 in the month of
-January 2023. Very strong left skew towards the bottom</p>
+April 2023. Very strong left skew towards the bottom</p>
 <pre class="r"><code>data_1 %&gt;% 
   summarise(AvgPermitsMF=mean(total_mf_units),MeidanPermitsMF=median(total_mf_units))</code></pre>
 <pre><code>##   AvgPermitsMF MeidanPermitsMF
-## 1       81.367            12.5</code></pre>
+## 1     213.6938              20</code></pre>
 <table>
-<caption>Top 20 Multifamily Permits in January 2023 by number of Units,
+<caption>Top 20 Multifamily Permits in April 2023 by number of Units,
 County Level</caption>
+<colgroup>
+<col width="80%" />
+<col width="19%" />
+</colgroup>
 <thead>
 <tr class="header">
-<th align="left">CountyName</th>
+<th align="left">County</th>
 <th align="right">total_mf_units</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Harris County</td>
-<td align="right">3440</td>
+<td align="left">Harris County TX</td>
+<td align="right">8526</td>
 </tr>
 <tr class="even">
-<td align="left">Fulton County</td>
-<td align="right">1647</td>
+<td align="left">Maricopa County AZ</td>
+<td align="right">8323</td>
 </tr>
 <tr class="odd">
-<td align="left">Dallas County</td>
-<td align="right">1263</td>
+<td align="left">Travis County TX</td>
+<td align="right">5986</td>
 </tr>
 <tr class="even">
-<td align="left">Wake County</td>
-<td align="right">1223</td>
+<td align="left">Los Angeles County CA</td>
+<td align="right">5323</td>
 </tr>
 <tr class="odd">
-<td align="left">Hillsborough County</td>
-<td align="right">1129</td>
+<td align="left">Miami-Dade County FL</td>
+<td align="right">5134</td>
 </tr>
 <tr class="even">
-<td align="left">Miami-Dade County</td>
-<td align="right">1030</td>
+<td align="left">Davidson County TN</td>
+<td align="right">4436</td>
 </tr>
 <tr class="odd">
-<td align="left">Travis County</td>
-<td align="right">800</td>
+<td align="left">Mecklenburg County NC</td>
+<td align="right">4083</td>
 </tr>
 <tr class="even">
-<td align="left">Hennepin County</td>
-<td align="right">796</td>
+<td align="left">King County WA</td>
+<td align="right">3944</td>
 </tr>
 <tr class="odd">
-<td align="left">Brunswick County</td>
-<td align="right">796</td>
+<td align="left">Fulton County GA</td>
+<td align="right">3839</td>
 </tr>
 <tr class="even">
-<td align="left">Washington DC</td>
-<td align="right">788</td>
+<td align="left">Collin County TX</td>
+<td align="right">3774</td>
 </tr>
 <tr class="odd">
-<td align="left">Los Angeles County</td>
-<td align="right">746</td>
+<td align="left">Dallas County TX</td>
+<td align="right">3372</td>
 </tr>
 <tr class="even">
-<td align="left">Clark County</td>
-<td align="right">692</td>
+<td align="left">Wake County NC</td>
+<td align="right">3281</td>
 </tr>
 <tr class="odd">
-<td align="left">Okaloosa County</td>
-<td align="right">689</td>
+<td align="left">Duval County FL</td>
+<td align="right">3154</td>
 </tr>
 <tr class="even">
-<td align="left">Bexar County</td>
-<td align="right">684</td>
+<td align="left">Bexar County TX</td>
+<td align="right">3032</td>
 </tr>
 <tr class="odd">
-<td align="left">Volusia County</td>
-<td align="right">659</td>
+<td align="left">Hillsborough County FL</td>
+<td align="right">2511</td>
 </tr>
 <tr class="even">
-<td align="left">Lee County</td>
-<td align="right">620</td>
+<td align="left">Kings County NY</td>
+<td align="right">2504</td>
 </tr>
 <tr class="odd">
-<td align="left">Placer County</td>
-<td align="right">528</td>
+<td align="left">Salt Lake County UT</td>
+<td align="right">2498</td>
 </tr>
 <tr class="even">
-<td align="left">San Diego County</td>
-<td align="right">521</td>
+<td align="left">Denton County TX</td>
+<td align="right">2364</td>
 </tr>
 <tr class="odd">
-<td align="left">Fresno County</td>
-<td align="right">512</td>
+<td align="left">Lee County FL</td>
+<td align="right">2209</td>
 </tr>
 <tr class="even">
-<td align="left">Arapahoe County</td>
-<td align="right">487</td>
+<td align="left">Denver County CO</td>
+<td align="right">2203</td>
 </tr>
 </tbody>
 </table>
@@ -433,61 +453,62 @@ County Level</caption>
 <p>This data set is at the county level. It contains the current level
 of permits for the particular month by county</p>
 <pre class="r"><code>data_1 %&gt;% 
-  group_by(FIPSState) %&gt;% 
+  left_join(FipsToState,by=c(&quot;FIPSState&quot;=&quot;FIPS_Code&quot;))%&gt;% 
+  group_by(Postal_Abbr.) %&gt;% 
   summarise(MultifamilyPermits = sum(total_mf_units)) %&gt;% 
   arrange(desc(MultifamilyPermits))-&gt; State_Counts
 knitr::kable(
   State_Counts %&gt;% 
-    top_n(10,MultifamilyPermits),caption = &quot;Top 10 Multifamily Permits in January 2023, Statewise&quot;
+    top_n(10,MultifamilyPermits),caption = &quot;Top 10 Multifamily Permits in April 2023, Statewise&quot;
 )</code></pre>
 <table>
-<caption>Top 10 Multifamily Permits in January 2023, Statewise</caption>
+<caption>Top 10 Multifamily Permits in April 2023, Statewise</caption>
 <thead>
 <tr class="header">
-<th align="right">FIPSState</th>
+<th align="left">Postal_Abbr.</th>
 <th align="right">MultifamilyPermits</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">48</td>
-<td align="right">8692</td>
+<td align="left">TX</td>
+<td align="right">37375</td>
 </tr>
 <tr class="even">
-<td align="right">12</td>
-<td align="right">6904</td>
+<td align="left">FL</td>
+<td align="right">31497</td>
 </tr>
 <tr class="odd">
-<td align="right">6</td>
-<td align="right">4070</td>
+<td align="left">CA</td>
+<td align="right">20574</td>
 </tr>
 <tr class="even">
-<td align="right">37</td>
-<td align="right">3208</td>
+<td align="left">NC</td>
+<td align="right">14724</td>
 </tr>
 <tr class="odd">
-<td align="right">13</td>
-<td align="right">3131</td>
+<td align="left">CO</td>
+<td align="right">10416</td>
 </tr>
 <tr class="even">
-<td align="right">8</td>
-<td align="right">2054</td>
+<td align="left">GA</td>
+<td align="right">10170</td>
 </tr>
 <tr class="odd">
-<td align="right">51</td>
-<td align="right">1873</td>
+<td align="left">WA</td>
+<td align="right">9932</td>
 </tr>
 <tr class="even">
-<td align="right">34</td>
-<td align="right">1361</td>
+<td align="left">AZ</td>
+<td align="right">9580</td>
 </tr>
 <tr class="odd">
-<td align="right">53</td>
-<td align="right">1255</td>
+<td align="left">NJ</td>
+<td align="right">8760</td>
 </tr>
 <tr class="even">
-<td align="right">49</td>
-<td align="right">977</td>
+<td align="left">NY</td>
+<td align="right">7900</td>
 </tr>
 </tbody>
 </table>

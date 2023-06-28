@@ -14,11 +14,12 @@ library(tidyverse)
 The data that I am using comes directly from the US Census Bureau. The number of multifamily permits is based on the number of Units that have been permited for more non single-family structures. This will be the sum of the the columns named
 
 ```{r Census_data}
-header <- scan("https://www2.census.gov/econ/bps/County/co2301c.txt",nlines= 1, what=character(),sep=",")
-header2 <- scan("https://www2.census.gov/econ/bps/County/co2301c.txt",nlines= 1,skip=1 ,what=character(),sep=",")
-data <- read.csv("https://www2.census.gov/econ/bps/County/co2301c.txt",skip= 3,header = FALSE)
+header <- scan("https://www2.census.gov/econ/bps/County/co2305y.txt",nlines= 1, what=character(),sep=",")
+header2 <- scan("https://www2.census.gov/econ/bps/County/co2305y.txt",nlines= 1,skip=1 ,what=character(),sep=",")
+data <- read.csv("https://www2.census.gov/econ/bps/County/co2305y.txt",skip= 3,header = FALSE)
 names(data) <- paste0(header,header2)
 
+FipsToState <- read_csv("Data/FipsToState.csv")
 # Cut off the end to use only reported data
 data <- data[,1:18]
 ```
@@ -38,19 +39,21 @@ Data looks ready! :) The counties that did not have any multifamily permits have
 
 #### Average Multifamily Permits 
 
-A pretty low average across the U.S. at only 81.376 in the month of January 2023. Very strong left skew towards the bottom
+A pretty low average across the U.S. at only 81.376 in the month of April 2023. Very strong left skew towards the bottom
 
 ```{r Focus_on_Top10_Counties}
 data_1 %>% 
   summarise(AvgPermitsMF=mean(total_mf_units),MeidanPermitsMF=median(total_mf_units))
 ```
 ```{r Top_Counties , echo=FALSE}
-data_1 %>% 
-  select(CountyName,total_mf_units) %>% 
+data_1 %>%  
+  left_join(FipsToState,by=c("FIPSState"="FIPS_Code"))%>% 
+  mutate(CountyStateName =paste(CountyName,Postal_Abbr.,sep="") ) %>% 
+  select(County=CountyStateName,total_mf_units) %>% 
   arrange(desc(total_mf_units)) %>% 
   top_n(20,total_mf_units)-> County_top_20
 knitr::kable(
- County_top_20,caption = "Top 20 Multifamily Permits in January 2023 by number of Units, County Level"
+ County_top_20,caption = "Top 20 Multifamily Permits in April 2023 by number of Units, County Level"
 )
 ```
 
@@ -61,12 +64,13 @@ This data set is at the county level. It contains the current level of permits f
 
 ```{r States_Read}
 data_1 %>% 
-  group_by(FIPSState) %>% 
+  left_join(FipsToState,by=c("FIPSState"="FIPS_Code"))%>% 
+  group_by(Postal_Abbr.) %>% 
   summarise(MultifamilyPermits = sum(total_mf_units)) %>% 
   arrange(desc(MultifamilyPermits))-> State_Counts
 knitr::kable(
   State_Counts %>% 
-    top_n(10,MultifamilyPermits),caption = "Top 10 Multifamily Permits in January 2023, Statewise"
+    top_n(10,MultifamilyPermits),caption = "Top 10 Multifamily Permits in April 2023, Statewise"
 )
 ```
 

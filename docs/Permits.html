@@ -314,9 +314,9 @@ $(document).ready(function () {
 the year and data. This particular dataset is set for April 2023, the
 most recent release of data. The next permits release is on July 16,
 which will be June permit data at the county level.</p>
-<pre class="r"><code>header &lt;- scan(&quot;https://www2.census.gov/econ/bps/County/co2305c.txt&quot;,nlines= 1, what=character(),sep=&quot;,&quot;)
-header2 &lt;- scan(&quot;https://www2.census.gov/econ/bps/County/co2305c.txt&quot;,nlines= 1,skip=1 ,what=character(),sep=&quot;,&quot;)
-data &lt;- read.csv(&quot;https://www2.census.gov/econ/bps/County/co2305c.txt&quot;,skip= 3,header = FALSE)
+<pre class="r"><code>header &lt;- scan(&quot;https://www2.census.gov/econ/bps/County/co2305y.txt&quot;,nlines= 1, what=character(),sep=&quot;,&quot;)
+header2 &lt;- scan(&quot;https://www2.census.gov/econ/bps/County/co2305y.txt&quot;,nlines= 1,skip=1 ,what=character(),sep=&quot;,&quot;)
+data &lt;- read.csv(&quot;https://www2.census.gov/econ/bps/County/co2305y.txt&quot;,skip= 3,header = FALSE)
 names(data) &lt;- paste0(header,header2,sep = &quot;&quot;)
 FipsToState &lt;- read_csv(&quot;Data/FipsToState.csv&quot;)</code></pre>
 <pre><code>## Rows: 53 Columns: 3
@@ -342,19 +342,19 @@ head(data_1)</code></pre>
 ## 5     202305         1          9          3            6
 ## 6     202305         1         11          3            6
 ##                                                     CountyName Bldgs
-## 1 Autauga County                                                  18
-## 2 Baldwin County                                                 278
-## 3 Barbour County                                                   3
+## 1 Autauga County                                                 105
+## 2 Baldwin County                                                1185
+## 3 Barbour County                                                   6
 ## 4 Bibb County                                                      1
-## 5 Blount County                                                    2
+## 5 Blount County                                                    7
 ## 6 Bullock County                                                   0
-##   1-unitUnits    Value
-## 1          18  8218099
-## 2         278 73366507
-## 3           3   851800
-## 4           1   384000
-## 5           2   407957
-## 6           0        0</code></pre>
+##   1-unitUnits     Value
+## 1         105  39602828
+## 2        1185 340098718
+## 3           6   1916800
+## 4           1    384000
+## 5           7   1283871
+## 6           0         0</code></pre>
 <p>Data looks ready! :)</p>
 <div id="county-level-analysis" class="section level3">
 <h3>County Level Analysis</h3>
@@ -384,83 +384,83 @@ knitr::kable(
 <tbody>
 <tr class="odd">
 <td align="left">Harris County TX</td>
-<td align="right">2192</td>
+<td align="right">8885</td>
 </tr>
 <tr class="even">
 <td align="left">Maricopa County AZ</td>
-<td align="right">1567</td>
+<td align="right">6287</td>
 </tr>
 <tr class="odd">
-<td align="left">Clark County NV</td>
-<td align="right">1057</td>
+<td align="left">Collin County TX</td>
+<td align="right">4640</td>
 </tr>
 <tr class="even">
 <td align="left">Wake County NC</td>
-<td align="right">1056</td>
-</tr>
-<tr class="odd">
-<td align="left">Montgomery County TX</td>
-<td align="right">1040</td>
-</tr>
-<tr class="even">
-<td align="left">Collin County TX</td>
-<td align="right">1013</td>
+<td align="right">4198</td>
 </tr>
 <tr class="odd">
 <td align="left">Fort Bend County TX</td>
-<td align="right">959</td>
+<td align="right">4180</td>
 </tr>
 <tr class="even">
-<td align="left">Polk County FL</td>
-<td align="right">906</td>
+<td align="left">Montgomery County TX</td>
+<td align="right">4096</td>
 </tr>
 <tr class="odd">
-<td align="left">Riverside County CA</td>
-<td align="right">900</td>
+<td align="left">Clark County NV</td>
+<td align="right">4041</td>
 </tr>
 <tr class="even">
 <td align="left">Los Angeles County CA</td>
-<td align="right">806</td>
+<td align="right">3503</td>
+</tr>
+<tr class="odd">
+<td align="left">Polk County FL</td>
+<td align="right">3402</td>
+</tr>
+<tr class="even">
+<td align="left">Tarrant County TX</td>
+<td align="right">3155</td>
 </tr>
 <tr class="odd">
 <td align="left">Denton County TX</td>
-<td align="right">718</td>
+<td align="right">3080</td>
 </tr>
 <tr class="even">
 <td align="left">Pasco County FL</td>
-<td align="right">706</td>
+<td align="right">2938</td>
 </tr>
 <tr class="odd">
-<td align="left">Horry County SC</td>
-<td align="right">696</td>
+<td align="left">Riverside County CA</td>
+<td align="right">2934</td>
 </tr>
 <tr class="even">
-<td align="left">Pinal County AZ</td>
-<td align="right">679</td>
+<td align="left">Lee County FL</td>
+<td align="right">2781</td>
 </tr>
 <tr class="odd">
 <td align="left">Mecklenburg County NC</td>
-<td align="right">600</td>
+<td align="right">2748</td>
 </tr>
 <tr class="even">
-<td align="left">Williamson County TX</td>
-<td align="right">600</td>
+<td align="left">Horry County SC</td>
+<td align="right">2622</td>
 </tr>
 <tr class="odd">
-<td align="left">Osceola County FL</td>
-<td align="right">564</td>
+<td align="left">Pinal County AZ</td>
+<td align="right">2591</td>
 </tr>
 <tr class="even">
 <td align="left">Lake County FL</td>
-<td align="right">542</td>
+<td align="right">2554</td>
 </tr>
 <tr class="odd">
-<td align="left">Manatee County FL</td>
-<td align="right">528</td>
+<td align="left">Williamson County TX</td>
+<td align="right">2404</td>
 </tr>
 <tr class="even">
-<td align="left">Oklahoma County OK</td>
-<td align="right">518</td>
+<td align="left">Brevard County FL</td>
+<td align="right">2217</td>
 </tr>
 </tbody>
 </table>
@@ -490,43 +490,43 @@ knitr::kable(
 <tbody>
 <tr class="odd">
 <td align="left">TX</td>
-<td align="right">13831</td>
+<td align="right">58107</td>
 </tr>
 <tr class="even">
 <td align="left">FL</td>
-<td align="right">11411</td>
+<td align="right">48565</td>
 </tr>
 <tr class="odd">
 <td align="left">NC</td>
-<td align="right">6375</td>
+<td align="right">26932</td>
 </tr>
 <tr class="even">
 <td align="left">CA</td>
-<td align="right">6003</td>
+<td align="right">22093</td>
 </tr>
 <tr class="odd">
 <td align="left">GA</td>
-<td align="right">4365</td>
+<td align="right">18109</td>
 </tr>
 <tr class="even">
 <td align="left">SC</td>
-<td align="right">3520</td>
+<td align="right">15190</td>
 </tr>
 <tr class="odd">
-<td align="left">AZ</td>
-<td align="right">3182</td>
+<td align="left">TN</td>
+<td align="right">12816</td>
 </tr>
 <tr class="even">
-<td align="left">TN</td>
-<td align="right">3084</td>
+<td align="left">AZ</td>
+<td align="right">12368</td>
 </tr>
 <tr class="odd">
 <td align="left">VA</td>
-<td align="right">2176</td>
+<td align="right">8891</td>
 </tr>
 <tr class="even">
 <td align="left">CO</td>
-<td align="right">1990</td>
+<td align="right">7757</td>
 </tr>
 </tbody>
 </table>

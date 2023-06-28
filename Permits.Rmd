@@ -2,7 +2,7 @@
 title: "Single-family Permits"
 author: "Jesse Wade"
 date: "`r Sys.Date()`"
-output: html_document
+output: html_document 
 ---
 
 ```{r setup, include=FALSE}
@@ -16,9 +16,9 @@ library(shiny)
 I am reading in the data from the census. It gives the count for the the year and data. This particular dataset is set for April 2023, the most recent release of data. The next permits release is on July 16, which will be June permit data at the county level.
 
 ```{r Census_data}
-header <- scan("https://www2.census.gov/econ/bps/County/co2305c.txt",nlines= 1, what=character(),sep=",")
-header2 <- scan("https://www2.census.gov/econ/bps/County/co2305c.txt",nlines= 1,skip=1 ,what=character(),sep=",")
-data <- read.csv("https://www2.census.gov/econ/bps/County/co2305c.txt",skip= 3,header = FALSE)
+header <- scan("https://www2.census.gov/econ/bps/County/co2305y.txt",nlines= 1, what=character(),sep=",")
+header2 <- scan("https://www2.census.gov/econ/bps/County/co2305y.txt",nlines= 1,skip=1 ,what=character(),sep=",")
+data <- read.csv("https://www2.census.gov/econ/bps/County/co2305y.txt",skip= 3,header = FALSE)
 names(data) <- paste0(header,header2,sep = "")
 FipsToState <- read_csv("Data/FipsToState.csv")
 data <- data[,1:18]
