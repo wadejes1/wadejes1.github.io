@@ -6,16 +6,16 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
 library(shiny)
 ```
 
-# Read in Data from census
+# Read in Data from U.S. Census Bureau 
 
 I am reading in the data from the census. It gives the count for the the year and data. This particular dataset is set for April 2023, the most recent release of data. The next permits release is on July 16, which will be June permit data at the county level.
 
-```{r Census_data}
+```{r Census_data, include=FALSE}
 header <- scan("https://www2.census.gov/econ/bps/County/co2305y.txt",nlines= 1, what=character(),sep=",")
 header2 <- scan("https://www2.census.gov/econ/bps/County/co2305y.txt",nlines= 1,skip=1 ,what=character(),sep=",")
 data <- read.csv("https://www2.census.gov/econ/bps/County/co2305y.txt",skip= 3,header = FALSE)
@@ -30,7 +30,7 @@ data <- data[,1:18]
 data %>% 
   select(c(1:9)) ->data_1
 
-head(data_1)
+knitr::kable(head(data_1))
 ```
 
 Data looks ready! :)
@@ -69,12 +69,7 @@ knitr::kable(
 )
 ```
 
-Only have FIPS codes, will convert over later. 
 
 
-### Adding in R-Shiny application to site. Permits by county or MSA
 
-```{r ShinyPermitsApp, echo=FALSE }
-shinyAppFile("PermitsApp.R")
-```
 
