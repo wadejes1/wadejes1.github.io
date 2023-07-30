@@ -11,11 +11,11 @@
 
 <meta name="author" content="Jesse Wade" />
 
-<meta name="date" content="2023-07-19" />
+<meta name="date" content="2023-07-30" />
 
 <title>Single-family Permits</title>
 
-<script src="site_libs/header-attrs-2.22/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -296,7 +296,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Single-family Permits</h1>
 <h4 class="author">Jesse Wade</h4>
-<h4 class="date">2023-07-19</h4>
+<h4 class="date">2023-07-30</h4>
 
 </div>
 
@@ -304,9 +304,9 @@ $(document).ready(function () {
 <div id="read-in-data-from-u.s.-census-bureau" class="section level1">
 <h1>Read in Data from U.S. Census Bureau</h1>
 <p>I am reading in the data from the census. It gives the count for the
-the year and data. This particular dataset is set for April 2023, the
-most recent release of data. The next permits release is on July 16,
-which will be June permit data at the county level.</p>
+the year and data. This particular dataset is set for June 2023, the
+most recent release of data. The next permits release is on August 16,
+which will be July permit data at the county level.</p>
 <div id="remove-all-multifamily-permit-data" class="section level2">
 <h2>Remove all multifamily permit data</h2>
 <table style="width:100%;">
@@ -336,40 +336,40 @@ which will be June permit data at the county level.</p>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">202305</td>
+<td align="right">202306</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">3</td>
 <td align="right">6</td>
 <td align="left">Autauga County</td>
-<td align="right">105</td>
-<td align="right">105</td>
-<td align="right">39602828</td>
+<td align="right">134</td>
+<td align="right">134</td>
+<td align="right">50178489</td>
 </tr>
 <tr class="even">
-<td align="right">202305</td>
+<td align="right">202306</td>
 <td align="right">1</td>
 <td align="right">3</td>
 <td align="right">3</td>
 <td align="right">6</td>
 <td align="left">Baldwin County</td>
-<td align="right">1185</td>
-<td align="right">1185</td>
-<td align="right">340098718</td>
+<td align="right">1583</td>
+<td align="right">1583</td>
+<td align="right">461309928</td>
 </tr>
 <tr class="odd">
-<td align="right">202305</td>
+<td align="right">202306</td>
 <td align="right">1</td>
 <td align="right">5</td>
 <td align="right">3</td>
 <td align="right">6</td>
 <td align="left">Barbour County</td>
-<td align="right">6</td>
-<td align="right">6</td>
-<td align="right">1916800</td>
+<td align="right">21</td>
+<td align="right">21</td>
+<td align="right">5289800</td>
 </tr>
 <tr class="even">
-<td align="right">202305</td>
+<td align="right">202306</td>
 <td align="right">1</td>
 <td align="right">7</td>
 <td align="right">3</td>
@@ -380,18 +380,18 @@ which will be June permit data at the county level.</p>
 <td align="right">384000</td>
 </tr>
 <tr class="odd">
-<td align="right">202305</td>
+<td align="right">202306</td>
 <td align="right">1</td>
 <td align="right">9</td>
 <td align="right">3</td>
 <td align="right">6</td>
 <td align="left">Blount County</td>
-<td align="right">7</td>
-<td align="right">7</td>
-<td align="right">1283871</td>
+<td align="right">9</td>
+<td align="right">9</td>
+<td align="right">1624355</td>
 </tr>
 <tr class="even">
-<td align="right">202305</td>
+<td align="right">202306</td>
 <td align="right">1</td>
 <td align="right">11</td>
 <td align="right">3</td>
@@ -409,7 +409,7 @@ which will be June permit data at the county level.</p>
 <div id="top-countys-by-permits-level" class="section level4">
 <h4>Top Countys by Permits level</h4>
 <table>
-<caption>Top 20 Single Family Permits in April 2023 by County</caption>
+<caption>Top 20 Single Family Permits in June 2023 by County</caption>
 <colgroup>
 <col width="88%" />
 <col width="11%" />
@@ -423,83 +423,83 @@ which will be June permit data at the county level.</p>
 <tbody>
 <tr class="odd">
 <td align="left">Harris County TX</td>
-<td align="right">8885</td>
+<td align="right">10708</td>
 </tr>
 <tr class="even">
 <td align="left">Maricopa County AZ</td>
-<td align="right">6287</td>
+<td align="right">7730</td>
 </tr>
 <tr class="odd">
 <td align="left">Collin County TX</td>
-<td align="right">4640</td>
-</tr>
-<tr class="even">
-<td align="left">Wake County NC</td>
-<td align="right">4198</td>
-</tr>
-<tr class="odd">
-<td align="left">Fort Bend County TX</td>
-<td align="right">4180</td>
+<td align="right">5609</td>
 </tr>
 <tr class="even">
 <td align="left">Montgomery County TX</td>
-<td align="right">4096</td>
+<td align="right">5348</td>
+</tr>
+<tr class="odd">
+<td align="left">Fort Bend County TX</td>
+<td align="right">5112</td>
+</tr>
+<tr class="even">
+<td align="left">Wake County NC</td>
+<td align="right">5071</td>
 </tr>
 <tr class="odd">
 <td align="left">Clark County NV</td>
-<td align="right">4041</td>
-</tr>
-<tr class="even">
-<td align="left">Los Angeles County CA</td>
-<td align="right">3503</td>
-</tr>
-<tr class="odd">
-<td align="left">Polk County FL</td>
-<td align="right">3402</td>
+<td align="right">5027</td>
 </tr>
 <tr class="even">
 <td align="left">Tarrant County TX</td>
-<td align="right">3155</td>
-</tr>
-<tr class="odd">
-<td align="left">Denton County TX</td>
-<td align="right">3080</td>
-</tr>
-<tr class="even">
-<td align="left">Pasco County FL</td>
-<td align="right">2938</td>
+<td align="right">4709</td>
 </tr>
 <tr class="odd">
 <td align="left">Riverside County CA</td>
-<td align="right">2934</td>
+<td align="right">4671</td>
+</tr>
+<tr class="even">
+<td align="left">Los Angeles County CA</td>
+<td align="right">4451</td>
+</tr>
+<tr class="odd">
+<td align="left">Polk County FL</td>
+<td align="right">4357</td>
 </tr>
 <tr class="even">
 <td align="left">Lee County FL</td>
-<td align="right">2781</td>
+<td align="right">3869</td>
+</tr>
+<tr class="odd">
+<td align="left">Denton County TX</td>
+<td align="right">3688</td>
+</tr>
+<tr class="even">
+<td align="left">Pasco County FL</td>
+<td align="right">3622</td>
 </tr>
 <tr class="odd">
 <td align="left">Mecklenburg County NC</td>
-<td align="right">2748</td>
+<td align="right">3388</td>
 </tr>
 <tr class="even">
-<td align="left">Horry County SC</td>
-<td align="right">2622</td>
+<td align="left">Pinal County AZ</td>
+<td align="right">3316</td>
 </tr>
 <tr class="odd">
-<td align="left">Pinal County AZ</td>
-<td align="right">2591</td>
+<td align="left">Horry County SC</td>
+<td align="right">3178</td>
 </tr>
 <tr class="even">
 <td align="left">Lake County FL</td>
-<td align="right">2554</td>
+<td align="right">3099</td>
 </tr>
 <tr class="odd">
 <td align="left">Williamson County TX</td>
-<td align="right">2404</td>
+<td align="right">2893</td>
 </tr>
 <tr class="even">
-<td align="left">Brevard County FL</td>
-<td align="right">2217</td>
+<td align="left">Manatee County FL</td>
+<td align="right">2864</td>
 </tr>
 </tbody>
 </table>
@@ -510,7 +510,7 @@ which will be June permit data at the county level.</p>
 <p>This data set is at the county level. It contains the current level
 of permits for the particular month by county</p>
 <table>
-<caption>Top 10 Single Family Permits in April 2023, Statewise</caption>
+<caption>Top 10 Single Family Permits in June 2023, Statewise</caption>
 <thead>
 <tr class="header">
 <th align="left">Postal_Abbr.</th>
@@ -520,43 +520,43 @@ of permits for the particular month by county</p>
 <tbody>
 <tr class="odd">
 <td align="left">TX</td>
-<td align="right">58107</td>
+<td align="right">72845</td>
 </tr>
 <tr class="even">
 <td align="left">FL</td>
-<td align="right">48565</td>
+<td align="right">61165</td>
 </tr>
 <tr class="odd">
 <td align="left">NC</td>
-<td align="right">26932</td>
+<td align="right">33000</td>
 </tr>
 <tr class="even">
 <td align="left">CA</td>
-<td align="right">22093</td>
+<td align="right">29292</td>
 </tr>
 <tr class="odd">
 <td align="left">GA</td>
-<td align="right">18109</td>
+<td align="right">22471</td>
 </tr>
 <tr class="even">
 <td align="left">SC</td>
-<td align="right">15190</td>
+<td align="right">18654</td>
 </tr>
 <tr class="odd">
 <td align="left">TN</td>
-<td align="right">12816</td>
+<td align="right">15968</td>
 </tr>
 <tr class="even">
 <td align="left">AZ</td>
-<td align="right">12368</td>
+<td align="right">15411</td>
 </tr>
 <tr class="odd">
 <td align="left">VA</td>
-<td align="right">8891</td>
+<td align="right">10782</td>
 </tr>
 <tr class="even">
 <td align="left">CO</td>
-<td align="right">7757</td>
+<td align="right">9775</td>
 </tr>
 </tbody>
 </table>

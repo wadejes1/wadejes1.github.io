@@ -13,10 +13,10 @@ library(tidyverse)
 
 The data that I am using comes directly from the US Census Bureau. The number of multifamily permits is based on the number of Units that have been permited for more non single-family structures. This will be the sum of the the columns named
 
-```{r Census_data}
-header <- scan("https://www2.census.gov/econ/bps/County/co2305y.txt",nlines= 1, what=character(),sep=",")
-header2 <- scan("https://www2.census.gov/econ/bps/County/co2305y.txt",nlines= 1,skip=1 ,what=character(),sep=",")
-data <- read.csv("https://www2.census.gov/econ/bps/County/co2305y.txt",skip= 3,header = FALSE)
+```{r Census_data,include=FALSE}
+header <- scan("https://www2.census.gov/econ/bps/County/co2306y.txt",nlines= 1, what=character(),sep=",")
+header2 <- scan("https://www2.census.gov/econ/bps/County/co2306y.txt",nlines= 1,skip=1 ,what=character(),sep=",")
+data <- read.csv("https://www2.census.gov/econ/bps/County/co2306y.txt",skip= 3,header = FALSE)
 names(data) <- paste0(header,header2)
 
 FipsToState <- read_csv("Data/FipsToState.csv")
@@ -26,7 +26,7 @@ data <- data[,1:18]
 
 ## Remove single family data and format multifamily data correctly
 
-```{r}
+```{r,include=FALSE}
 data %>% 
   select(c(1:6,10:18)) %>% 
   mutate(total_mf_bldgs=.[[7]]+.[[10]]+.[[13]],total_mf_units=.[[8]]+.[[11]]+.[[14]],total_mf_value=.[[9]]+.[[12]]+.[[15]] ) %>% 
@@ -39,9 +39,9 @@ Data looks ready! :) The counties that did not have any multifamily permits have
 
 #### Average Multifamily Permits 
 
-A pretty low average across the U.S. at only 81.376 in the month of April 2023. Very strong left skew towards the bottom
+A pretty low average across the U.S. at only 81.376 in the month of June 2023. Very strong left skew towards the bottom
 
-```{r Focus_on_Top10_Counties}
+```{r Focus_on_Top10_Counties,include=FALSE}
 data_1 %>% 
   summarise(AvgPermitsMF=mean(total_mf_units),MeidanPermitsMF=median(total_mf_units))
 ```
@@ -53,7 +53,7 @@ data_1 %>%
   arrange(desc(total_mf_units)) %>% 
   top_n(20,total_mf_units)-> County_top_20
 knitr::kable(
- County_top_20,caption = "Top 20 Multifamily Permits in April 2023 by number of Units, County Level"
+ County_top_20,caption = "Top 20 Multifamily Permits in June 2023 by number of Units, County Level"
 )
 ```
 
@@ -70,7 +70,7 @@ data_1 %>%
   arrange(desc(MultifamilyPermits))-> State_Counts
 knitr::kable(
   State_Counts %>% 
-    top_n(10,MultifamilyPermits),caption = "Top 10 Multifamily Permits in April 2023, Statewise"
+    top_n(10,MultifamilyPermits),caption = "Top 10 Multifamily Permits in June 2023, Statewise"
 )
 ```
 

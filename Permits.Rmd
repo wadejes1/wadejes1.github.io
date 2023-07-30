@@ -13,12 +13,12 @@ library(shiny)
 
 # Read in Data from U.S. Census Bureau 
 
-I am reading in the data from the census. It gives the count for the the year and data. This particular dataset is set for April 2023, the most recent release of data. The next permits release is on July 16, which will be June permit data at the county level.
+I am reading in the data from the census. It gives the count for the the year and data. This particular dataset is set for June 2023, the most recent release of data. The next permits release is on August 16, which will be July permit data at the county level.
 
 ```{r Census_data, include=FALSE}
-header <- scan("https://www2.census.gov/econ/bps/County/co2305y.txt",nlines= 1, what=character(),sep=",")
-header2 <- scan("https://www2.census.gov/econ/bps/County/co2305y.txt",nlines= 1,skip=1 ,what=character(),sep=",")
-data <- read.csv("https://www2.census.gov/econ/bps/County/co2305y.txt",skip= 3,header = FALSE)
+header <- scan("https://www2.census.gov/econ/bps/County/co2306y.txt",nlines= 1, what=character(),sep=",")
+header2 <- scan("https://www2.census.gov/econ/bps/County/co2306y.txt",nlines= 1,skip=1 ,what=character(),sep=",")
+data <- read.csv("https://www2.census.gov/econ/bps/County/co2306y.txt",skip= 3,header = FALSE)
 names(data) <- paste0(header,header2,sep = "")
 FipsToState <- read_csv("Data/FipsToState.csv")
 data <- data[,1:18]
@@ -47,7 +47,7 @@ data_1 %>%
   arrange(desc(Permits)) %>% 
   top_n(20,Permits) -> Top_sf_Permit_Counties
 knitr::kable(
-  Top_sf_Permit_Counties,caption = "Top 20 Single Family Permits in April 2023 by County"
+  Top_sf_Permit_Counties,caption = "Top 20 Single Family Permits in June 2023 by County"
 )
 
 ```
@@ -65,7 +65,7 @@ data %>%
   arrange(desc(SingleFamilyPermits))-> State_Counts
 knitr::kable(
   State_Counts %>% 
-    top_n(10,SingleFamilyPermits),caption = "Top 10 Single Family Permits in April 2023, Statewise"
+    top_n(10,SingleFamilyPermits),caption = "Top 10 Single Family Permits in June 2023, Statewise"
 )
 ```
 
