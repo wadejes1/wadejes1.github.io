@@ -13,7 +13,7 @@
 
 <meta name="date" content="2023-07-30" />
 
-<title>NCAA Men’s Basketball</title>
+<title>Defense</title>
 
 <script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -300,119 +300,14 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">NCAA Men’s Basketball</h1>
+<h1 class="title toc-ignore">Defense</h1>
 <h4 class="author">Jesse Wade</h4>
 <h4 class="date">2023-07-30</h4>
 
 </div>
 
 
-<div id="top-10-teams-each-year-2010-2023" class="section level2">
-<h2>Top 10 Teams Each Year, 2010-2023</h2>
-<pre class="r"><code>for (i in seq(10,23,1)){
-  x = paste(&quot;NCAA_DATA_20&quot;,i,sep=&quot;&quot;)
-  print(head(get(x)))
-  
-}</code></pre>
-<pre><code>##              Team  AdjO AdjD AdjT  Luck  OppO OppD NCSOS
-## 1          Duke 1 121.0 87.7 64.7 +.009 107.9 96.4 +2.50
-## 2        Kansas 1 120.4 88.5 67.2 +.038 108.2 98.7 +1.13
-## 3      Syracuse 1 118.5 90.9 68.7 -.008 108.5 99.8 -2.96
-## 4      Kentucky 1 114.9 88.3 68.3 +.060 106.5 99.5 -1.28
-## 5 West Virginia 2 117.2 91.7 62.6 +.057 110.0 97.5 +5.45
-## 6    Kansas St. 2 116.1 90.6 69.4 -.008 109.5 97.5 +2.37
-##           Team  AdjO AdjD AdjT  Luck  OppO  OppD NCSOS
-## 1   Ohio St. 1 125.0 91.5 63.8 +.031 108.9 100.0 -4.08
-## 2       Duke 1 119.7 91.3 68.6 +.017 107.3  98.9 +3.48
-## 3     Kansas 1 118.9 90.6 68.4 +.060 108.2 100.5 -0.29
-## 4 Pittsburgh 1 120.6 93.5 61.8 -.023 107.6  99.4 -3.68
-## 5      Texas 4 115.5 89.6 65.5 -.058 107.5  99.9 +0.60
-## 6  Wisconsin 4 122.3 96.5 56.9 -.003 110.0  99.2 -3.58
-##               Team  AdjO AdjD AdjT  Luck  OppO OppD NCSOS
-## 1       Kentucky 1 122.2 89.6 65.4 +.032 106.8 98.8 -1.06
-## 2       Ohio St. 2 118.1 88.1 66.9 -.050 108.9 98.8 -3.34
-## 3   Michigan St. 1 114.7 86.9 64.3 -.027 108.6 98.4 -1.07
-## 4         Kansas 2 114.0 87.1 66.3 +.027 108.8 97.6 +5.21
-## 5       Syracuse 1 117.7 91.7 64.4 +.060 107.0 99.0 -2.11
-## 6 North Carolina 1 116.1 90.7 70.9 +.016 107.2 99.8 +1.89
-##           Team  AdjO AdjD AdjT  Luck  OppO  OppD NCSOS
-## 1 Louisville 1 117.7 84.8 65.8 -.016 107.4  97.2 +2.15
-## 2    Florida 3 117.2 86.0 61.9 -.089 105.6  98.6 +4.09
-## 3    Indiana 1 120.8 91.5 66.0 -.021 106.7  97.8 -5.16
-## 4   Michigan 4 121.9 94.0 64.0 -.007 108.2  97.0 -3.09
-## 5    Gonzaga 1 120.5 92.7 63.3 +.026 105.4 101.0 +5.03
-## 6       Duke 2 119.1 92.1 66.7 +.033 108.4  98.5 +6.85
-##            Team  AdjO AdjD AdjT  Luck  OppO  OppD NCSOS
-## 1  Louisville 4 118.9 88.5 67.2 -.045 107.0 102.7 -4.65
-## 2     Arizona 1 116.5 86.4 62.8 +.014 109.9 100.6 +1.62
-## 3     Florida 1 116.5 88.0 61.3 +.053 109.4 100.4 +2.39
-## 4    Virginia 1 114.8 88.3 59.5 +.012 109.4 100.8 +1.57
-## 5   Wisconsin 2 122.0 96.1 62.4 +.019 110.2  98.8 +3.33
-## 6 Wichita St. 1 117.8 92.4 63.5 -.009 105.8 104.8 +2.89
-##          Team  AdjO AdjD AdjT  Luck  OppO  OppD NCSOS
-## 1  Kentucky 1 121.3 84.4 62.4 +.048 108.7 100.1 +3.13
-## 2 Wisconsin 1 129.0 95.2 58.7 +.015 109.8  98.8 +5.30
-## 3      Duke 1 124.5 92.0 65.8 +.067 110.7  99.5 +1.31
-## 4   Arizona 2 119.9 87.5 65.8 -.033 108.3 100.9 +0.09
-## 5 Villanova 1 122.7 92.0 64.2 +.031 108.2 100.6 +0.23
-## 6  Virginia 2 115.6 85.5 58.0 +.023 108.5 100.3 +0.46
-##               Team  AdjO AdjD AdjT  Luck  OppO  OppD NCSOS
-## 1      Villanova 2 122.8 90.8 66.0 +.023 110.5  99.7 +2.98
-## 2 North Carolina 1 124.4 94.6 70.5 -.055 111.7 100.2 +3.13
-## 3         Kansas 1 120.0 90.4 69.0 +.044 111.4  98.8 +3.62
-## 4       Virginia 1 120.6 91.0 61.3 -.040 112.1  99.5 +4.98
-## 5   Michigan St. 2 123.4 95.5 66.5 -.012 107.5 100.3 +0.40
-## 6       Kentucky 4 121.8 96.6 67.4 -.046 108.6 100.3 +3.19
-##               Team  AdjO AdjD AdjT  Luck  OppO  OppD NCSOS
-## 1        Gonzaga 1 118.4 86.3 70.1 +.020 106.2 103.3 +1.01
-## 2      Villanova 1 122.4 92.5 64.1 +.010 109.8 100.5 +3.55
-## 3 North Carolina 1 120.7 92.5 71.3 +.037 112.0  99.5 +3.87
-## 4       Kentucky 2 119.1 91.4 72.0 +.006 110.5  99.5 +3.74
-## 5        Florida 4 116.9 89.5 69.0 -.041 110.3  97.8 +8.19
-## 6         Kansas 1 121.9 94.5 70.2 +.067 111.2  98.8 +2.39
-##             Team  AdjO AdjD AdjT  Luck  OppO  OppD NCSOS
-## 1    Villanova 1 127.8 94.0 68.7 -.018 111.3 100.0 +3.98
-## 2     Virginia 1 115.2 85.6 59.4 +.048 110.0 100.7 -0.08
-## 3         Duke 2 122.4 93.6 69.7 -.034 110.4  99.8 +4.09
-## 4   Cincinnati 2 113.4 86.8 64.5 -.019 106.9 103.4 -4.21
-## 5       Purdue 2 122.7 96.4 67.2 +.006 109.1 100.1 +0.69
-## 6 Michigan St. 3 119.2 93.8 67.0 +.038 108.6 101.9 -5.03
-##             Team  AdjO AdjD AdjT  Luck  OppO  OppD NCSOS
-## 1     Virginia 1 123.4 89.2 59.4 +.050 109.2  98.1 -3.24
-## 2      Gonzaga 1 124.5 91.6 70.2 -.001 106.9 102.5 +1.87
-## 3 Michigan St. 2 121.0 90.2 66.9 +.001 110.6  96.9 +3.24
-## 4         Duke 1 120.0 89.3 72.1 +.018 110.7  97.8 +5.08
-## 5   Texas Tech 3 114.1 84.1 66.6 +.004 109.8  98.7 -5.39
-## 6     Michigan 2 114.5 86.2 64.8 -.001 109.2  98.0 -5.42
-##               Team  AdjO AdjD AdjT  Luck  OppO  OppD NCSOS
-## 1        Kansas 1* 115.8 85.5 67.3 +.040 107.4  94.7 +9.58
-## 2       Gonzaga 1* 121.3 94.4 71.9 +.050 103.5 101.0 -2.09
-## 3        Baylor 1* 113.5 88.1 66.2 +.016 106.4  96.2 +1.38
-## 4        Dayton 1* 119.1 94.1 67.6 +.002 104.1 101.3 -0.74
-## 5          Duke 3* 115.7 91.1 72.0 -.009 106.0  98.7 +2.60
-## 6 San Diego St. 2* 115.1 90.6 64.6 -.008 105.3 102.3 -1.80
-##         Team  AdjO AdjD AdjT  Luck  OppO OppD  NCSOS
-## 1  Gonzaga 1 126.4 89.9 73.8 +.022 108.1 96.8  +6.21
-## 2   Baylor 1 125.0 91.1 67.4 +.046 108.7 95.5  -2.83
-## 3 Michigan 1 117.6 87.9 66.6 +.007 111.7 95.3  +2.51
-## 4 Illinois 1 118.0 88.9 70.5 +.022 112.3 94.1 +10.44
-## 5  Houston 2 118.3 89.6 64.4 +.018 105.7 96.5  +2.11
-## 6      USC 6 115.7 88.1 67.0 +.001 111.1 94.8  +6.28
-##         Team  AdjO AdjD AdjT  Luck  OppO  OppD NCSOS
-## 1  Gonzaga 1 120.7 89.7 72.5 -.039 104.6 100.3 -2.88
-## 2  Houston 5 116.8 89.1 63.6 -.012 105.5  99.6 +0.18
-## 3   Kansas 1 119.2 91.7 69.3 +.041 108.0  95.4 +4.13
-## 4   Baylor 1 118.0 91.0 67.4 +.004 107.4  96.5 -1.89
-## 5  Arizona 1 118.6 92.6 72.2 +.048 105.9  99.5 -0.78
-## 6 Kentucky 2 120.0 94.3 67.5 -.043 106.5  97.6 -2.72
-##            Team  AdjO AdjD AdjT  Luck  OppO  OppD  NCSOS
-## 1 Connecticut 4 120.8 90.9 66.6 -.056 109.7  99.3  -1.75
-## 2     Houston 1 118.1 90.4 63.5 +.023 107.2 102.6  -0.03
-## 3        UCLA 2 115.2 88.0 66.1 -.009 109.2 100.5  +0.15
-## 4     Alabama 1 115.5 88.2 72.6 +.057 110.2  99.2 +10.46
-## 5       Texas 2 116.5 92.1 68.8 +.017 111.1  99.2  -0.76
-## 6   Tennessee 4 111.3 87.5 65.1 -.063 109.2 100.5  +2.76</code></pre>
-</div>
+
 
 
 

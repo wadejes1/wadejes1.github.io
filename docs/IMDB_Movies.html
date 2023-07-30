@@ -11,7 +11,7 @@
 
 <meta name="author" content="Jesse Wade" />
 
-<meta name="date" content="2023-03-12" />
+<meta name="date" content="2023-07-30" />
 
 <title>IMDB Movie Rankings</title>
 
@@ -254,10 +254,16 @@ $(document).ready(function () {
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Offensive</li>
     <li>
       <a href="test_commit.html">Batting</a>
     </li>
-    <li class="dropdown-header">Pitching</li>
+    <li>
+      <a href="Pitching.html">Pitching</a>
+    </li>
+    <li>
+      <a href="Defense.html">Defensive</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -296,7 +302,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">IMDB Movie Rankings</h1>
 <h4 class="author">Jesse Wade</h4>
-<h4 class="date">2023-03-12</h4>
+<h4 class="date">2023-07-30</h4>
 
 </div>
 
@@ -311,7 +317,7 @@ IMDB_html &lt;- html_elements(IMDB,c(&quot;span&quot;)) %&gt;% html_text()
 IMDB_INFO &lt;- IMDB_html[104]
 
 IMDB_INFO</code></pre>
-<pre><code>## [1] &quot;Español (España)&quot;</code></pre>
+<pre><code>## [1] &quot;&quot;</code></pre>
 </div>
 
 

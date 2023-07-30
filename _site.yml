@@ -7,9 +7,13 @@ navbar:
     href: index.html
   - text: "Baseball"
     menu:
+    - text: "Offensive"
     - text: "Batting"
       href: test_commit.html
     - text: "Pitching"
+      href: Pitching.html
+    - text: "Defensive"
+      href: Defense.html
   - text: "IMDB"
     href: IMDB_Movies.html
   - text: "Housing"

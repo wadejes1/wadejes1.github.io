@@ -1,0 +1,17 @@
+---
+title: "Pitching"
+author: "Jesse Wade"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      include=FALSE)
+```
+
+```{r libraries, include=FALSE}
+library(Lahman)
+library(tidyverse)
+
+```
