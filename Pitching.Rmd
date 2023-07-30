@@ -15,3 +15,24 @@ library(Lahman)
 library(tidyverse)
 
 ```
+
+### Pitching Stats by Year
+
+```{r First_Pitch}
+Pitching %>% 
+  filter(yearID > 1950) %>% 
+  group_by(lgID,yearID) %>% 
+  summarise(TotalStrikeouts=sum(SO),AverageStikeOutsPerGame=mean(SO/G)) %>% 
+  select(lgID,yearID,TotalStrikeouts,AverageStikeOutsPerGame) -> StrikeoutsbyLeague
+
+TotalLeagueStrikeouts <- ggplot(StrikeoutsbyLeague,aes(x=yearID,y=TotalStrikeouts)) + geom_line(aes(color=lgID),linewidth=1.4)+labs(title="Strikeout Totals By League, 1950-2022")
+TotalLeagueStrikeouts
+StrikeoutsPerGame<- ggplot(StrikeoutsbyLeague,aes(x=yearID,y=AverageStikeOutsPerGame)) + geom_line(aes(color=lgID),linewidth=1.4)+labs(title="Average Strikeouts per Game Pitched By League, 1950-2022")
+StrikeoutsPerGame
+```
+```{r G_1,include=TRUE}
+TotalLeagueStrikeouts
+
+StrikeoutsPerGame
+```
+

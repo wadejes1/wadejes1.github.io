@@ -63,7 +63,7 @@ knitr::kable(Homeruns_By_Year %>%
                top_n(10,TotalHR) %>% 
                arrange(desc(TotalHR)),caption ='Years with the Highest Home Run Totals')
 
-HR_Plot <- ggplot(Homeruns_By_Year,aes(x=yearID,y=TotalHR))+geom_line()
+HR_Plot <- ggplot(Homeruns_By_Year,aes(x=yearID,y=TotalHR))+geom_line(linewidth=1.25,color="darkgreen")
 
 HR_Plot
 
