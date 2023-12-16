@@ -14,13 +14,131 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(bea.R)
 library(httr)
+library(jsonlite)
 beakey <- "DA37A0AD-8100-4FA9-A813-CDF16F9E6AE9"
 ```
 
 
-# Just Some Analysis of BEA Corporate Profits Data
+# Analysis of BEA Corporate Profits Data
 
-```{r SeachWords}
-bea
+Within the BEA data, we have access to 13 differnet datasets. Corporate profits is associated with the GDP releases. They are released with the second release of GDP, as an initial esimtate at a SAAR. 
+
+```{r getData, include=FALSE}
+ListofData <- GET("https://apps.bea.gov/api/data?&UserID=DA37A0AD-8100-4FA9-A813-CDF16F9E6AE9&method=GETDATASETLIST&ResultFormat=JSON")
+
+listofData <- fromJSON(rawToChar(ListofData$content))
+
+Possible_Datasets <- listofData$BEAAPI$Results$Dataset
+```
+
+```{r BEA_DataSets}
+Possible_Datasets
+```
+
+
+Since we are downloaded in the NIPA dataset, we also need to know what the required parameters are for this data set. The table below tells us what the API will expect when we request the data.
+
+```{r NIPAParam, include=FALSE}
+NIPA_DataSet <- GET("https://apps.bea.gov/api/data?&UserID=DA37A0AD-8100-4FA9-A813-CDF16F9E6AE9&method=GETPARAMETERLIST&datasetname=NIPA&ResultFormat=JSON")
+
+NIPA_table <- fromJSON(rawToChar(NIPA_DataSet$content))
+
+NIPA_Param <- NIPA_table$BEAAPI$Results$Parameter
+```
+
+```{r NIPAParameters}
+NIPA_Param[,c(1,3)]
+```
+
+Within the paramets, there a 325 possible tableIDs to download from the NIPA. We need to find which one has the corporate profits data. It may be multiple tables that we will need to use. 
+
+```{r AllowedValues, include=FALSE}
+TableName_DataSet <- GET("https://apps.bea.gov/api/data?&UserID=DA37A0AD-8100-4FA9-A813-CDF16F9E6AE9&method=GETPARAMETERVALUES&datasetname=NIPA&parametername=TableName&ResultFormat=JSON")
+
+TableName_table <- fromJSON(rawToChar(TableName_DataSet$content))
+
+TableName_Param <- TableName_table$BEAAPI$Results$ParamValue
+
+TableName_Param %>% 
+  filter(grepl('corporate profits',tolower(Description))) -> CorpProfits_Tables
+```
+
+```{r AllowedValues_View}
+nrow(TableName_Param)
+
+head(CorpProfits_Tables)
+```
+
+Since looking for Corporate Profits, need to search for this in the Description column of the table parameter table 
+
+
+```{r GetDataFromBEA, include=F}
+CorpProfitByIndustry <- GET("https://apps.bea.gov/api/data?&UserID=DA37A0AD-8100-4FA9-A813-CDF16F9E6AE9&method=GETDATA&datasetname=NIPA&FREQUENCY=Q&TABLENAME=T61600D&YEAR=X&ResultFormat=JSON")
+
+CorpProfits_Data_JSON <- fromJSON(rawToChar(CorpProfitByIndustry$content))
+
+CorpProfits_Data <- CorpProfits_Data_JSON$BEAAPI$Results
+
+CorpProfits_DataTable = CorpProfits_Data$Data
+```
+
+After finally finding the table, we now have the Corporate profits with inventory valuation and capital consumption adjustments dating back to the first Quarter of 2021. We will likely need to edit the TimePeriod column because R does not deal well with the Q in the time period. 
+
+```{r ViewData}
+CorpProfits_DataTable %>% 
+  filter(LineNumber==1) %>% 
+  select(TimePeriod,DataValue) -> CorpProfits_Line1_SAAR
+
+head(CorpProfits_Line1_SAAR)
+```
+```{r ChangeDate, include=FALSE}
+CorpProfits_Line1_SAAR %>% 
+  mutate(Date=as.Date(if_else(substr(TimePeriod,5,6)=="Q1",paste(substr(TimePeriod,1,4),"/03/31",sep=''),
+          if_else(substr(TimePeriod,5,6)=="Q2",paste(substr(TimePeriod,1,4),"/06/30",sep=''),
+                  if_else(substr(TimePeriod,5,6)=="Q3",paste(substr(TimePeriod,1,4),"/09/30",sep=''),
+                          if_else(substr(TimePeriod,5,6)=="Q4",paste(substr(TimePeriod,1,4),"/12/31",sep=''),"ERROR"))))),CorpProfit=as.integer(gsub(',',"",DataValue))) %>% 
+  select(CorpProfit,Date)->CorpProfits_Line1_SAAR
+
+CorpProfitsPlot <- ggplot(data = CorpProfits_Line1_SAAR,aes(x=Date,y=CorpProfit)) + geom_line(linewidth=1.25,color="red") + ylab("Corporate Profits [Millions;SAAR]") +labs(title="Corporate profits with inventory valuation and capital consumption adjustments")
+```
+
+
+
+```{r BEA_Corp_Profits_Gr}
+
+CorpProfitsPlot
+```
+
+```{r CorpProfitsByIndustry, include = FALSE }
+CorpProfits_DataTable %>%   mutate(Date=as.Date(if_else(substr(TimePeriod,5,6)=="Q1",paste(substr(TimePeriod,1,4),"/03/31",sep=''),
+          if_else(substr(TimePeriod,5,6)=="Q2",paste(substr(TimePeriod,1,4),"/06/30",sep=''),
+                  if_else(substr(TimePeriod,5,6)=="Q3",paste(substr(TimePeriod,1,4),"/09/30",sep=''),
+                          if_else(substr(TimePeriod,5,6)=="Q4",paste(substr(TimePeriod,1,4),"/12/31",sep=''),"ERROR"))))),CorpProfit=as.integer(gsub(',',"",DataValue))) %>% 
+  select(Date,LineDescription,CorpProfit,LineNumber) -> All_industry_table
+```
+
+Within the corporate profits table, there is 29 unique line items. The main line items that This will focus on for now are first 7 line items
+
+```{r Unique_Line_Items}
+unique(All_industry_table$LineDescription)
+
+All_industry_table %>% 
+  filter(as.numeric(LineNumber) < 8) -> CCAADj_CorpProfits
+```
+
+```{r CCAAdj_CorpProfits_gph, include=FALSE}
+CCAAdj_CorpProfits_gph <- ggplot(data=CCAADj_CorpProfits,aes(x=Date,y=CorpProfit)) +
+  geom_line(linewidth=.75,aes(color=LineNumber)) +ylab("Corporate Profits [Millions;SAAR]") +labs(title="Corporate profits with inventory valuation and capital consumption adjustments By industry")
+```
+
+
+```{r CCAAdj_CorpProfits_gph_1}
+unique(CCAADj_CorpProfits[,c(2,4)])
+CCAAdj_CorpProfits_gph
+```
+
+```{r Shares_of_The_Pie}
+# CCAADj_CorpProfits %>% 
+  
 ```
 

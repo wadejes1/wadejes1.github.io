@@ -15,7 +15,7 @@
 
 <title>BEA Corporate Profits</title>
 
-<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -313,9 +313,124 @@ $(document).ready(function () {
 </div>
 
 
-<div id="just-some-analysis-of-bea-corporate-profits-data"
-class="section level1">
-<h1>Just Some Analysis of BEA Corporate Profits Data</h1>
+<div id="analysis-of-bea-corporate-profits-data" class="section level1">
+<h1>Analysis of BEA Corporate Profits Data</h1>
+<p>Within the BEA data, we have access to 13 differnet datasets.
+Corporate profits is associated with the GDP releases. They are released
+with the second release of GDP, as an initial esimtate at a SAAR.</p>
+<pre class="r"><code>Possible_Datasets</code></pre>
+<pre><code>##                DatasetName                                 DatasetDescription
+## 1                     NIPA                               Standard NIPA tables
+## 2       NIUnderlyingDetail               Standard NI underlying detail tables
+## 3                      MNE                          Multinational Enterprises
+## 4              FixedAssets                       Standard Fixed Assets tables
+## 5                      ITA                International Transactions Accounts
+## 6                      IIP                  International Investment Position
+## 7              InputOutput                                  Input-Output Data
+## 8            IntlServTrade                       International Services Trade
+## 9              IntlServSTA International Services Supplied Through Affiliates
+## 10           GDPbyIndustry                                    GDP by Industry
+## 11                Regional                                 Regional data sets
+## 12 UnderlyingGDPbyIndustry                         Underlying GDP by Industry
+## 13      APIDatasetMetaData                  Metadata about other API datasets</code></pre>
+<p>Since we are downloaded in the NIPA dataset, we also need to know
+what the required parameters are for this data set. The table below
+tells us what the API will expect when we request the data.</p>
+<pre class="r"><code>NIPA_Param[,c(1,3)]</code></pre>
+<pre><code>##   ParameterName                                           ParameterDescription
+## 1     Frequency                             A - Annual, Q-Quarterly, M-Monthly
+## 2  ShowMillions A flag indicating that million-dollar data should be returned.
+## 3       TableID                             The standard NIPA table identifier
+## 4     TableName                                  The new NIPA table identifier
+## 5          Year                List of year(s) of data to retrieve (X for All)</code></pre>
+<p>Within the paramets, there a 325 possible tableIDs to download from
+the NIPA. We need to find which one has the corporate profits data. It
+may be multiple tables that we will need to use.</p>
+<pre class="r"><code>nrow(TableName_Param)</code></pre>
+<pre><code>## [1] 325</code></pre>
+<pre class="r"><code>head(CorpProfits_Tables)</code></pre>
+<pre><code>##   TableName                                               Description
+## 1   T61600A            Table 6.16A. Corporate Profits by Industry (A)
+## 2   T61600B        Table 6.16B. Corporate Profits by Industry (A) (Q)
+## 3   T61600C        Table 6.16C. Corporate Profits by Industry (A) (Q)
+## 4   T61600D        Table 6.16D. Corporate Profits by Industry (A) (Q)
+## 5   T61700A Table 6.17A. Corporate Profits Before Tax by Industry (A)
+## 6   T61700B Table 6.17B. Corporate Profits Before Tax by Industry (A)</code></pre>
+<p>Since looking for Corporate Profits, need to search for this in the
+Description column of the table parameter table</p>
+<p>After finally finding the table, we now have the Corporate profits
+with inventory valuation and capital consumption adjustments dating back
+to the first Quarter of 2021. We will likely need to edit the TimePeriod
+column because R does not deal well with the Q in the time period.</p>
+<pre class="r"><code>CorpProfits_DataTable %&gt;% 
+  filter(LineNumber==1) %&gt;% 
+  select(TimePeriod,DataValue) -&gt; CorpProfits_Line1_SAAR
+
+head(CorpProfits_Line1_SAAR)</code></pre>
+<pre><code>##   TimePeriod DataValue
+## 1     2001Q1   782,044
+## 2     2001Q2   808,069
+## 3     2001Q3   773,204
+## 4     2001Q4   785,445
+## 5     2002Q1   870,086
+## 6     2002Q2   901,521</code></pre>
+<pre class="r"><code>CorpProfitsPlot</code></pre>
+<p><img src="BEA_CorpProfits_files/figure-html/BEA_Corp_Profits_Gr-1.png" width="672" /></p>
+<p>Within the corporate profits table, there is 29 unique line items.
+The main line items that This will focus on for now are first 7 line
+items</p>
+<pre class="r"><code>unique(All_industry_table$LineDescription)</code></pre>
+<pre><code>##  [1] &quot;Corporate profits with inventory valuation and capital consumption adjustments&quot;
+##  [2] &quot;Domestic industries&quot;                                                           
+##  [3] &quot;Financial&quot;                                                                     
+##  [4] &quot;Nonfinancial&quot;                                                                  
+##  [5] &quot;Rest of the world&quot;                                                             
+##  [6] &quot;Receipts from the rest of the world&quot;                                           
+##  [7] &quot;Less: Payments to the rest of the world&quot;                                       
+##  [8] &quot;Corporate profits with inventory valuation adjustment&quot;                         
+##  [9] &quot;Federal Reserve banks&quot;                                                         
+## [10] &quot;Other financial&quot;                                                               
+## [11] &quot;Utilities&quot;                                                                     
+## [12] &quot;Manufacturing&quot;                                                                 
+## [13] &quot;Durable goods&quot;                                                                 
+## [14] &quot;Fabricated metal products&quot;                                                     
+## [15] &quot;Machinery&quot;                                                                     
+## [16] &quot;Computer and electronic products&quot;                                              
+## [17] &quot;Electrical equipment, appliances, and components&quot;                              
+## [18] &quot;Motor vehicles, bodies and trailers, and parts&quot;                                
+## [19] &quot;Other durable goods&quot;                                                           
+## [20] &quot;Nondurable goods&quot;                                                              
+## [21] &quot;Food and beverage and tobacco products&quot;                                        
+## [22] &quot;Petroleum and coal products&quot;                                                   
+## [23] &quot;Chemical products&quot;                                                             
+## [24] &quot;Other nondurable goods&quot;                                                        
+## [25] &quot;Wholesale trade&quot;                                                               
+## [26] &quot;Retail trade&quot;                                                                  
+## [27] &quot;Transportation and warehousing&quot;                                                
+## [28] &quot;Information&quot;                                                                   
+## [29] &quot;Other nonfinancial&quot;</code></pre>
+<pre class="r"><code>All_industry_table %&gt;% 
+  filter(as.numeric(LineNumber) &lt; 8) -&gt; CCAADj_CorpProfits</code></pre>
+<pre class="r"><code>unique(CCAADj_CorpProfits[,c(2,4)])</code></pre>
+<pre><code>##                                                                    LineDescription
+## 1   Corporate profits with inventory valuation and capital consumption adjustments
+## 92                                                             Domestic industries
+## 183                                                                      Financial
+## 274                                                                   Nonfinancial
+## 365                                                              Rest of the world
+## 456                                            Receipts from the rest of the world
+## 547                                        Less: Payments to the rest of the world
+##     LineNumber
+## 1            1
+## 92           2
+## 183          3
+## 274          4
+## 365          5
+## 456          6
+## 547          7</code></pre>
+<pre class="r"><code>CCAAdj_CorpProfits_gph</code></pre>
+<p><img src="BEA_CorpProfits_files/figure-html/CCAAdj_CorpProfits_gph_1-1.png" width="672" /></p>
+<pre class="r"><code># CCAADj_CorpProfits %&gt;% </code></pre>
 </div>
 
 
