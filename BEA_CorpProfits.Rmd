@@ -10,4 +10,17 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
+```{r Libraries, include=FALSE}
+library(tidyverse)
+library(bea.R)
+library(httr)
+beakey <- "DA37A0AD-8100-4FA9-A813-CDF16F9E6AE9"
+```
+
+
 # Just Some Analysis of BEA Corporate Profits Data
+
+```{r SeachWords}
+bea
+```
+
