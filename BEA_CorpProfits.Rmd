@@ -1,0 +1,13 @@
+---
+title: "BEA Corporate Profits"
+author: "Jesse Wade"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Just Some Analysis of BEA Corporate Profits Data

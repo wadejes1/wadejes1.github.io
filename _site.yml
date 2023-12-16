@@ -14,8 +14,6 @@ navbar:
       href: Pitching.html
     - text: "Defensive"
       href: Defense.html
-  - text: "IMDB"
-    href: IMDB_Movies.html
   - text: "Housing"
     menu:
     - text: "Permits"
@@ -23,8 +21,10 @@ navbar:
       href: Permits.html
     - text: "Multifamily"
       href: Permits_MF.html
-  - text: "NCAA Men's Basketball"
-    href: NCAA.html
+  - text: "BEA"
+    menu: 
+    - text: "Corporate Profits"
+      href: BEA_CorpProfits.html
     
 output:
   html_document:
