@@ -12,7 +12,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r Libraries, include=FALSE}
 library(tidyverse)
-library(bea.R)
 library(httr)
 library(jsonlite)
 beakey <- "DA37A0AD-8100-4FA9-A813-CDF16F9E6AE9"
@@ -32,7 +31,7 @@ Possible_Datasets <- listofData$BEAAPI$Results$Dataset
 ```
 
 ```{r BEA_DataSets}
-Possible_Datasets
+knitr::kable(Possible_Datasets)
 ```
 
 
@@ -47,7 +46,7 @@ NIPA_Param <- NIPA_table$BEAAPI$Results$Parameter
 ```
 
 ```{r NIPAParameters}
-NIPA_Param[,c(1,3)]
+knitr::kable(NIPA_Param[,c(1,3)])
 ```
 
 Within the paramets, there a 325 possible tableIDs to download from the NIPA. We need to find which one has the corporate profits data. It may be multiple tables that we will need to use. 
@@ -66,7 +65,7 @@ TableName_Param %>%
 ```{r AllowedValues_View}
 nrow(TableName_Param)
 
-head(CorpProfits_Tables)
+knitr::kable(head(CorpProfits_Tables))
 ```
 
 Since looking for Corporate Profits, need to search for this in the Description column of the table parameter table 
@@ -89,7 +88,7 @@ CorpProfits_DataTable %>%
   filter(LineNumber==1) %>% 
   select(TimePeriod,DataValue) -> CorpProfits_Line1_SAAR
 
-head(CorpProfits_Line1_SAAR)
+knitr::kable(head(CorpProfits_Line1_SAAR))
 ```
 ```{r ChangeDate, include=FALSE}
 CorpProfits_Line1_SAAR %>% 
@@ -120,7 +119,7 @@ CorpProfits_DataTable %>%   mutate(Date=as.Date(if_else(substr(TimePeriod,5,6)==
 Within the corporate profits table, there is 29 unique line items. The main line items that This will focus on for now are first 7 line items
 
 ```{r Unique_Line_Items}
-unique(All_industry_table$LineDescription)
+knitr::kable(unique(All_industry_table$LineDescription))
 
 All_industry_table %>% 
   filter(as.numeric(LineNumber) < 8) -> CCAADj_CorpProfits
@@ -133,12 +132,24 @@ CCAAdj_CorpProfits_gph <- ggplot(data=CCAADj_CorpProfits,aes(x=Date,y=CorpProfit
 
 
 ```{r CCAAdj_CorpProfits_gph_1}
-unique(CCAADj_CorpProfits[,c(2,4)])
+knitr::kable(unique(CCAADj_CorpProfits[,c(2,4)]))
 CCAAdj_CorpProfits_gph
 ```
 
-```{r Shares_of_The_Pie}
-# CCAADj_CorpProfits %>% 
-  
+```{r NonDurableGoods_dta, include = FALSE}
+All_industry_table %>% 
+  filter(LineNumber %in% c('23','24','25','26','27')) -> NonDurable_Goods
+```
+
+
+```{r NonDurableGoods_gph, include = FALSE}
+NonDurable_Goods_Gph <- ggplot(data=NonDurable_Goods,aes(x=Date,y=CorpProfit)) +
+  geom_line(linewidth=.75,aes(color=LineNumber)) +ylab("Corporate Profits [Millions;SAAR]") +labs(title="Corporate profits of NonDurable Goods")
+NonDurable_Goods_Gph
+```
+
+```{r NoDurable_Image}
+knitr::kable(unique(NonDurable_Goods[,c(2,4)]))
+NonDurable_Goods_Gph
 ```
 
