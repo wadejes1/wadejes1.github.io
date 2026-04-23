@@ -1,0 +1,19 @@
+---
+title: "RetroSheets"
+author: "Jesse Wade"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+```
+
+
+```{r ReadRetro_Sheets, include=FALSE}
+fields <- read.csv("data/gl2023.txt")
+
+```
+
