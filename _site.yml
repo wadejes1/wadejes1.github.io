@@ -10,6 +10,8 @@ navbar:
     - text: "Offensive"
     - text: "Batting"
       href: test_commit.html
+    - text: "EventByEvent"
+      href: RetroSheets_Hitting.html
     - text: "Pitching"
       href: Pitching.html
     - text: "Defensive"
